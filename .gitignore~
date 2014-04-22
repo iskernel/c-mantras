@@ -1,6 +1,5 @@
 build-c-mantras-Desktop-Debug
 buiid-c-mantras-tests-Desktop-Debug
-
 # Object files
 *.o
 *.ko
