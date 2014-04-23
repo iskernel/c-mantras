@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef uint32_t cmSize;
+typedef uint32_t cmsize;
 
 
 #endif // CM_CONFIG_H
