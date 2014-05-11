@@ -1,5 +1,10 @@
-#include "cm_base.h"
-#include "cm_helpers.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <string.h>
+
+#include "../base/cm_helpers.h"
+#include "cm_common_types.h"
 #include "cm_string.h"
 
 cmstring* cmstring_create_from_char_array(char* content)

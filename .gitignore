@@ -21,6 +21,8 @@
 *.i*86
 *.x86_64
 *.hex
-/build-c-mantras-Desktop-Debug/
-/build-c-mantras-tests-Desktop-Debug/
+/cmantras-lib/
+/cmantras-test/
+.metadata
+*~
 

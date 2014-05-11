@@ -1,5 +1,6 @@
-#include "cm_test_base.h"
-#include "cm_helpers.h"
+#include "cmantras/base/cm_helpers.h"
+
+#include "../cm_test_base.h"
 #include "cm_helpers_tests.h"
 
 

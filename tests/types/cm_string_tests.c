@@ -1,11 +1,13 @@
-#include "cm_test_base.h"
+#include "../cm_test_base.h"
 #include "cm_string_tests.h"
-#include "cm_string.h"
+#include "cmantras/types/cm_common_types.h"
+#include "cmantras/types/cm_string.h"
+
+
 
 static void cmstring_createFromCharArray_fromCharArray_isCreated()
 {
     const char* TEST_CONTENT = "test content";
-
     char* content = NULL;
     cmstring* string = NULL;
     cmsize expectedLength = 0;

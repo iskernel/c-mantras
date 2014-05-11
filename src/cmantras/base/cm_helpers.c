@@ -1,10 +1,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "cm_base.h"
 #include "cm_helpers.h"
 
-int64_t itoa(int64_t value, char *string, int radix)
+int64_t itoa(int64_t value, char *string, uint8_t radix)
 {
     char buffer[16];// be careful with the length of the buffer
     char *topOfPointer = buffer;
