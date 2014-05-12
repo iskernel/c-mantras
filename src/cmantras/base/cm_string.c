@@ -18,7 +18,8 @@ static struct cm_string* cm_string_create(char* content, cm_size_u length)
 
 	string = malloc(sizeof(struct cm_string));
 	string->data = malloc(sizeof(struct cm_string_data));
-	string->data->content = malloc(length * sizeof(char));
+	string->data->content = malloc(length * sizeof(char) );
+	strcpy(string->data->content, content);
 	string->data->length = length;
 	string->methods = DEFAULT_CM_STRING_INTERFACE;
 
@@ -50,7 +51,8 @@ struct cm_string* cm_string_create_from_char(char character)
 	struct cm_string* string = NULL;
 
 	string = malloc(sizeof(struct cm_string));
-	string->data->content = malloc(sizeof(char));
+	string->data = malloc(sizeof(struct cm_string_data));
+	string->data->content = malloc(2*sizeof(char));
 	string->data->content[0] = character;
 	string->data->length = 1;
 	string->methods = DEFAULT_CM_STRING_INTERFACE;
@@ -325,6 +327,7 @@ static struct cm_object* cm_string_to_cm_object(struct cm_string* string)
 
 void module_cm_string_initialize(void)
 {
+	DEFAULT_CM_STRING_INTERFACE = malloc(sizeof(struct cm_interface_object));
 	DEFAULT_CM_STRING_INTERFACE->to_lower = &cm_string_to_lower;
 	DEFAULT_CM_STRING_INTERFACE->to_upper = &cm_string_to_upper;
 	DEFAULT_CM_STRING_INTERFACE->are_equal = &cm_string_are_equal;

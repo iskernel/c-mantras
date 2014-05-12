@@ -79,7 +79,6 @@ static void cm_string_create_from_integer__negative_integer__is_created()
     assert_is_true(condition, __func__);
 }
 
-
 void cm_string_run_tests()
 {
 	setup();
