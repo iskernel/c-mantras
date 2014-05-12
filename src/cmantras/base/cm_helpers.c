@@ -1,5 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #include "cm_helpers.h"
 
@@ -50,4 +52,27 @@ int64_t itoa(int64_t value, char *string, uint8_t radix)
     return length;
 }
 
+char* char_array_to_lower(char* array, cm_size_u length)
+{
+	cm_size_u index = 0U;
 
+	for(;index < length ; index++)
+	{
+		array[index] = tolower(array[index]);
+	}
+
+	return array;
+}
+
+cm_size_u get_number_of_digits(int64_t value)
+{
+	cm_size_u result = 0U;
+
+	while(value > 0)
+	{
+		result++;
+		value /= 10;
+	}
+
+	return result;
+}
