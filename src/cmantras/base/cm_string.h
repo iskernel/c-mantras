@@ -49,4 +49,11 @@ struct cm_interface_string
 
 void module_cm_string_initialize(void);
 
+struct cm_string* cm_string_create_from_char_array(char* content);
+struct cm_string* cm_string_create_from_string(struct cm_string* string);
+struct cm_string* cm_string_create_from_char(char character);
+struct cm_string* cm_string_create_from_integer(int64_t number, uint8_t radix);
+struct cm_string* cm_string_create_from_real(double number);
+
+
 #endif // CM_STRING_H

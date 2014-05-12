@@ -4,7 +4,7 @@
 #include "cm_helpers_tests.h"
 
 
-static void itoa_negativeNumber_isConverted()
+static void itoa__negative_number_is_converted()
 {
     int64_t testedNumber = -88;
 
@@ -18,7 +18,7 @@ static void itoa_negativeNumber_isConverted()
     assert_is_true(condition, __func__);
 }
 
-static void itoa_positiveNumber_isConverted()
+static void itoa__positive_number_is_converted()
 {
     int64_t testedNumber = 88;
 
@@ -32,7 +32,7 @@ static void itoa_positiveNumber_isConverted()
     assert_is_true(condition, __func__);
 }
 
-static void itoa_unsignedNumber_isConverted()
+static void itoa__unsigned_number_is_converted()
 {
     uint64_t testedNumber = 88;
 
@@ -46,9 +46,9 @@ static void itoa_unsignedNumber_isConverted()
     assert_is_true(condition, __func__);
 }
 
-void cmhelpers_runTests()
+void cm_helpers_run_tests()
 {
-    itoa_negativeNumber_isConverted();
-    itoa_positiveNumber_isConverted();
-    itoa_unsignedNumber_isConverted();
+	itoa__negative_number_is_converted();
+	itoa__positive_number_is_converted();
+	itoa__unsigned_number_is_converted();
 }
