@@ -308,8 +308,14 @@ static bool cm_string_starts_with_insensitive(struct cm_string* source,
 
 static void cm_string_destroy(struct cm_string* stringObj)
 {
-	free(stringObj->data->content);
-	free(stringObj);
+	if(stringObj!=NULL)
+	{
+		if(stringObj->data->content != NULL)
+		{
+			free(stringObj->data->content);
+		}
+		free(stringObj);
+	}
 }
 
 static struct cm_object* cm_string_to_cm_object(struct cm_string* string)

@@ -79,6 +79,26 @@ static void cm_string_create_from_integer__negative_integer__is_created()
     assert_is_true(condition, __func__);
 }
 
+static void cm_string_create_from_real__positive_real__is_created()
+{
+	bool condition = false;
+	struct cm_string* string = NULL;
+
+	string = cm_string_create_from_real(23.32);
+    condition = (string->data->length == 9) && (strcmp(string->data->content, "23.320000") ==0);
+    assert_is_true(condition, __func__);
+}
+
+static void cm_string_create_from_real__negative_real__is_created()
+{
+	bool condition = false;
+	struct cm_string* string = NULL;
+
+	string = cm_string_create_from_real(-23.32);
+    condition = (string->data->length == 10) && (strcmp(string->data->content, "-23.320000") ==0);
+    assert_is_true(condition, __func__);
+}
+
 void cm_string_run_tests()
 {
 	setup();
@@ -87,4 +107,6 @@ void cm_string_run_tests()
 	cm_string_create_from_char__a_char__isCreated();
 	cm_string_create_from_integer__positive_integer__is_created();
 	cm_string_create_from_integer__negative_integer__is_created();
+	cm_string_create_from_real__positive_real__is_created();
+	cm_string_create_from_real__negative_real__is_created();
 }
