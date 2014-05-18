@@ -10,4 +10,6 @@ char* char_array_to_lower(char* array, cm_size_u length);
 
 cm_size_u get_number_of_digits(int64_t value);
 
+char* char_array_copy(char* array, cm_size_u length);
+
 #endif // CM_HELPERS_H

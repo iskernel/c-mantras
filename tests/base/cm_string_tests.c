@@ -197,8 +197,92 @@ static void cm_string_concat__multiple_string__concatenation_successful()
 	string_2  = cm_string_create_from_char_array("54321");
 	string_3  = cm_string_create_from_char_array("12345");
 
-	result = string_1->methods->concat(string_1, string_2, string_3);
+	result = string_1->methods->concat(string_1, string_2, string_3, NULL);
 	condition = (strcmp(result->data->content, "123455432112345") == 0);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_contains__string_contains_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("1234554321");
+	string_2  = cm_string_create_from_char_array("54321");
+
+	condition = string_1->methods->contains(string_1, string_2);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_contains_insensitive__string_contains_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("abcdef");
+	string_2  = cm_string_create_from_char_array("DEF");
+
+	condition = string_1->methods->contains_insensitive(string_1, string_2);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_ends_with__string_ends_with_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("abcdef");
+	string_2  = cm_string_create_from_char_array("def");
+
+	condition = string_1->methods->ends_with(string_1, string_2);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_ends_with_insensitive__string_ends_with_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("abcdef");
+	string_2  = cm_string_create_from_char_array("DEF");
+
+	condition = string_1->methods->ends_with_insensitive(string_1, string_2);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_starts_with__string_ends_with_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("abcdef");
+	string_2  = cm_string_create_from_char_array("abc");
+
+	condition = string_1->methods->starts_with(string_1, string_2);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_starts_with_insensitive__string_ends_with_substring__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("abcdef");
+	string_2  = cm_string_create_from_char_array("ABC");
+
+	condition = string_1->methods->starts_with_insensitive(string_1, string_2);
 
 	assert_is_true(condition,__func__);
 }
@@ -220,4 +304,10 @@ void cm_string_run_tests()
 	cm_string_compare_ordinal__normal_strings__within_expected_range();
 	cm_string_compare_are_equal__string_are_equal__is_true();
 	cm_string_concat__multiple_string__concatenation_successful();
+	cm_string_contains__string_contains_substring__is_true();
+	cm_string_contains_insensitive__string_contains_substring__is_true();
+	cm_string_ends_with__string_ends_with_substring__is_true();
+	cm_string_ends_with_insensitive__string_ends_with_substring__is_true();
+	cm_string_starts_with__string_ends_with_substring__is_true();
+	cm_string_starts_with_insensitive__string_ends_with_substring__is_true();
 }

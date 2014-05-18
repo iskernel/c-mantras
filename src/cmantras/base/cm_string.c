@@ -18,7 +18,7 @@ static struct cm_string* cm_string_create(char* content, cm_size_u length)
 
 	string = malloc(sizeof(struct cm_string));
 	string->data = malloc(sizeof(struct cm_string_data));
-	string->data->content = malloc(length * sizeof(char) );
+	string->data->content = malloc(length * sizeof(char));
 	strcpy(string->data->content, content);
 	string->data->length = length;
 	string->methods = &DEFAULT_CM_STRING_INTERFACE;
@@ -52,7 +52,7 @@ struct cm_string* cm_string_create_from_char(char character)
 
 	string = malloc(sizeof(struct cm_string));
 	string->data = malloc(sizeof(struct cm_string_data));
-	string->data->content = malloc(2*sizeof(char));
+	string->data->content = malloc(2 * sizeof(char));
 	string->data->content[0] = character;
 	string->data->length = 1;
 	string->methods = &DEFAULT_CM_STRING_INTERFACE;
@@ -118,14 +118,16 @@ struct cm_string* cm_string_to_upper(struct cm_string* string)
 	return string;
 }
 
-cm_cmp_size_i cm_string_compare(struct cm_string* string1, struct cm_string* string2)
+cm_cmp_size_i cm_string_compare(struct cm_string* string1,
+		struct cm_string* string2)
 {
 	cm_cmp_size_i result = strcmp(string1->data->content,
 			string2->data->content);
 	return result;
 }
 
-cm_cmp_size_i cm_string_compare_insensitive(struct cm_string* string1, struct cm_string* string2)
+cm_cmp_size_i cm_string_compare_insensitive(struct cm_string* string1,
+		struct cm_string* string2)
 {
 	cm_cmp_size_i result = 0;
 	char* content1 = NULL;
@@ -142,7 +144,8 @@ cm_cmp_size_i cm_string_compare_insensitive(struct cm_string* string1, struct cm
 	return result;
 }
 
-double cm_string_compare_ordinal(struct cm_string* string1, struct cm_string* string2)
+double cm_string_compare_ordinal(struct cm_string* string1,
+		struct cm_string* string2)
 {
 	double nr1 = 0.0;
 	double nr2 = 0.0;
@@ -175,27 +178,19 @@ struct cm_string* cm_string_concat(struct cm_string* string, ...)
 	cm_size_u size = 0U;
 
 	va_start(args, string);
-	do
+	for (iterator = string; iterator != NULL; iterator = va_arg(args, struct cm_string *))
 	{
-		iterator = va_arg(args, struct cm_string*);
-		if (iterator != NULL)
-		{
-			size += iterator->data->length;
-		}
-	} while (iterator != NULL);
+		size += iterator->data->length;
+	}
 	va_end(args);
 
 	content = malloc(sizeof(char) * size);
 
 	va_start(args, string);
-	do
+	for (iterator = string; iterator != NULL; iterator = va_arg(args, struct cm_string *))
 	{
-		iterator = va_arg(args, struct cm_string*);
-		if (iterator != NULL)
-		{
-			strcat(content, iterator->data->content);
-		}
-	} while (iterator != NULL);
+		strcat(content, iterator->data->content);
+	}
 	va_end(args);
 
 	result = cm_string_create_from_char_array(content);
@@ -217,13 +212,10 @@ bool cm_string_contains_insensitive(struct cm_string* source, struct cm_string* 
 	char* pch = NULL;
 	bool ret_val = NULL;
 
-	memcpy(source_content, source->data->content,
-			source->data->length * sizeof(char));
-	memcpy(substring_content, substring->data->content,
-			substring->data->length * sizeof(char));
+	source_content = char_array_copy(source->data->content, source->data->length);
+	substring_content = char_array_copy(substring->data->content, substring->data->length);
 	source_content = char_array_to_lower(source_content, source->data->length);
-	substring_content = char_array_to_lower(substring_content,
-			substring->data->length);
+	substring_content = char_array_to_lower(substring_content, substring->data->length);
 
 	pch = strstr(source_content, substring_content);
 	ret_val = (pch != NULL);
@@ -241,18 +233,16 @@ bool cm_string_ends_with(struct cm_string* source, struct cm_string* substring)
 	return result;
 }
 
-bool cm_string_ends_with_insensitive(struct cm_string* source, struct cm_string* substring)
+bool cm_string_ends_with_insensitive(struct cm_string* source,
+		struct cm_string* substring)
 {
 	char* source_content = NULL;
 	char* substring_content = NULL;
 
-	memcpy(source_content, source->data->content,
-			source->data->length * sizeof(char));
-	memcpy(substring_content, substring->data->content,
-			substring->data->length * sizeof(char));
+	source_content = char_array_copy(source->data->content, source->data->length);
+	substring_content = char_array_copy(substring->data->content, substring->data->length);
 	source_content = char_array_to_lower(source_content, source->data->length);
-	substring_content = char_array_to_lower(substring_content,
-			substring->data->length);
+	substring_content = char_array_to_lower(substring_content, substring->data->length);
 
 	source_content = char_array_to_lower(source_content, source->data->length);
 	substring_content = char_array_to_lower(substring_content,
@@ -265,7 +255,8 @@ bool cm_string_ends_with_insensitive(struct cm_string* source, struct cm_string*
 	return result;
 }
 
-bool cm_string_starts_with(struct cm_string* source, struct cm_string* substring)
+bool cm_string_starts_with(struct cm_string* source,
+		struct cm_string* substring)
 {
 	bool result = (substring->data->length <= source->data->length)
 			&& (strncmp(source->data->content, substring->data->content,
@@ -273,18 +264,16 @@ bool cm_string_starts_with(struct cm_string* source, struct cm_string* substring
 	return result;
 }
 
-bool cm_string_starts_with_insensitive(struct cm_string* source, struct cm_string* substring)
+bool cm_string_starts_with_insensitive(struct cm_string* source,
+		struct cm_string* substring)
 {
 	char* source_content = NULL;
 	char* substring_content = NULL;
 
-	memcpy(source_content, source->data->content,
-			source->data->length * sizeof(char));
-	memcpy(substring_content, substring->data->content,
-			substring->data->length * sizeof(char));
+	source_content = char_array_copy(source->data->content, source->data->length);
+	substring_content = char_array_copy(substring->data->content, substring->data->length);
 	source_content = char_array_to_lower(source_content, source->data->length);
-	substring_content = char_array_to_lower(substring_content,
-			substring->data->length);
+	substring_content = char_array_to_lower(substring_content, substring->data->length);
 
 	source_content = char_array_to_lower(source_content, source->data->length);
 	substring_content = char_array_to_lower(substring_content,
@@ -298,14 +287,9 @@ bool cm_string_starts_with_insensitive(struct cm_string* source, struct cm_strin
 
 void cm_string_destroy(struct cm_string* stringObj)
 {
-	if(stringObj!=NULL)
-	{
-		if(stringObj->data->content != NULL)
-		{
-			free(stringObj->data->content);
-		}
-		free(stringObj);
-	}
+	free(stringObj->data->content);
+	free(stringObj->data);
+	free(stringObj);
 }
 
 struct cm_object* cm_string_to_cm_object(struct cm_string* string)
@@ -314,7 +298,8 @@ struct cm_object* cm_string_to_cm_object(struct cm_string* string)
 	struct cm_interface_object* interface = NULL;
 
 	interface = cm_object_interface_create(&cm_string_destroy,
-										   &cm_string_are_equal, &cm_string_compare,
+										   &cm_string_are_equal,
+										   &cm_string_compare,
 										   &cm_string_create_from_string);
 	object = cm_object_create(string, interface);
 
@@ -327,21 +312,26 @@ void module_cm_string_initialize(void)
 	DEFAULT_CM_STRING_INTERFACE.to_upper = &cm_string_to_upper;
 	DEFAULT_CM_STRING_INTERFACE.are_equal = &cm_string_are_equal;
 	DEFAULT_CM_STRING_INTERFACE.compare = &cm_string_compare;
-	DEFAULT_CM_STRING_INTERFACE.compare_insensitive = &cm_string_compare_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.compare_insensitive =
+			&cm_string_compare_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.compare_ordinal = &cm_string_compare_ordinal;
 	DEFAULT_CM_STRING_INTERFACE.concat = &cm_string_concat;
 	DEFAULT_CM_STRING_INTERFACE.contains = &cm_string_contains;
-	DEFAULT_CM_STRING_INTERFACE.contains_insensitive = &cm_string_contains_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.contains_insensitive =
+			&cm_string_contains_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.destroy = &cm_string_destroy;
 	DEFAULT_CM_STRING_INTERFACE.ends_with = &cm_string_ends_with;
-	DEFAULT_CM_STRING_INTERFACE.ends_with_insensitive = &cm_string_ends_with_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.ends_with_insensitive =
+			&cm_string_ends_with_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.from_char = &cm_string_create_from_char;
-	DEFAULT_CM_STRING_INTERFACE.from_char_array = &cm_string_create_from_char_array;
+	DEFAULT_CM_STRING_INTERFACE.from_char_array =
+			&cm_string_create_from_char_array;
 	DEFAULT_CM_STRING_INTERFACE.from_integer = &cm_string_create_from_integer;
 	DEFAULT_CM_STRING_INTERFACE.from_real = &cm_string_create_from_real;
 	DEFAULT_CM_STRING_INTERFACE.from_string = &cm_string_create_from_string;
 	DEFAULT_CM_STRING_INTERFACE.starts_with = &cm_string_starts_with;
-	DEFAULT_CM_STRING_INTERFACE.starts_with_insensitive = &cm_string_starts_with_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.starts_with_insensitive =
+			&cm_string_starts_with_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.destroy = &cm_string_destroy;
 	DEFAULT_CM_STRING_INTERFACE.to_object = &cm_string_to_cm_object;
 }
