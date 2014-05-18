@@ -21,8 +21,7 @@
 *.i*86
 *.x86_64
 *.hex
-/cmantras-lib/
-/cmantras-test/
+/c-mantras/
 .metadata
 *~
 

@@ -99,6 +99,110 @@ static void cm_string_create_from_real__negative_real__is_created()
     assert_is_true(condition, __func__);
 }
 
+static void cm_string_to_lower__normal_string__string_is_lower()
+{
+	struct cm_string* string = NULL;
+	bool condition = false;
+
+	string  = cm_string_create_from_char_array("This is a CHAR array");
+	string->methods->to_lower(string);
+	condition = (strcmp(string->data->content, "this is a char array") == 0);
+
+    assert_is_true(condition, __func__);
+}
+
+static void cm_string_to_upper__normal_string__string_is_upper()
+{
+	struct cm_string* string = NULL;
+	bool condition = false;
+
+	string  = cm_string_create_from_char_array("This is a CHAR array");
+	string->methods->to_upper(string);
+	condition = (strcmp(string->data->content, "THIS IS A CHAR ARRAY") == 0);
+
+    assert_is_true(condition, __func__);
+}
+
+static void cm_string_compare__normal_strings__comparation_as_expected()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	cm_cmp_size_i cmp = 0;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("This is string1");
+	string_2  = cm_string_create_from_char_array("This is string2");
+
+	cmp = string_1->methods->compare(string_1, string_2);
+	condition = (cmp == -1);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_compare_insensitive__normal_strings__comparation_as_expected()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	cm_cmp_size_i cmp = 0;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("THis is StRing1");
+	string_2  = cm_string_create_from_char_array("ThIs iS sTrIng2");
+
+	cmp = string_1->methods->compare_insensitive(string_1, string_2);
+	condition = (cmp == -1);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_compare_ordinal__normal_strings__within_expected_range()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	double cmp = 0.0;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("22.33");
+	string_2  = cm_string_create_from_char_array("33.22");
+
+	cmp = string_1->methods->compare_ordinal(string_1, string_2);
+	condition = (cmp >= -11) && (cmp <= -10);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_compare_are_equal__string_are_equal__is_true()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("This is string");
+	string_2  = cm_string_create_from_char_array("This is string");
+
+	condition = (string_1->methods->are_equal(string_1, string_2) == true);
+
+	assert_is_true(condition,__func__);
+}
+
+static void cm_string_concat__multiple_string__concatenation_successful()
+{
+	struct cm_string* string_1 = NULL;
+	struct cm_string* string_2 = NULL;
+	struct cm_string* string_3 = NULL;
+	struct cm_string* result = NULL;
+	bool condition = false;
+
+	string_1  = cm_string_create_from_char_array("12345");
+	string_2  = cm_string_create_from_char_array("54321");
+	string_3  = cm_string_create_from_char_array("12345");
+
+	result = string_1->methods->concat(string_1, string_2, string_3);
+	condition = (strcmp(result->data->content, "123455432112345") == 0);
+
+	assert_is_true(condition,__func__);
+}
+
 void cm_string_run_tests()
 {
 	setup();
@@ -109,4 +213,11 @@ void cm_string_run_tests()
 	cm_string_create_from_integer__negative_integer__is_created();
 	cm_string_create_from_real__positive_real__is_created();
 	cm_string_create_from_real__negative_real__is_created();
+	cm_string_to_lower__normal_string__string_is_lower();
+	cm_string_to_upper__normal_string__string_is_upper();
+	cm_string_compare__normal_strings__comparation_as_expected();
+	cm_string_compare_insensitive__normal_strings__comparation_as_expected();
+	cm_string_compare_ordinal__normal_strings__within_expected_range();
+	cm_string_compare_are_equal__string_are_equal__is_true();
+	cm_string_concat__multiple_string__concatenation_successful();
 }

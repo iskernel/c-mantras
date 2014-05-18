@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -62,6 +63,16 @@ char* char_array_to_lower(char* array, cm_size_u length)
 	}
 
 	return array;
+}
+
+char* char_array_copy(char* array, cm_size_u length)
+{
+	char* new_array = NULL;
+
+	new_array = malloc(length * sizeof(char));
+	strcpy(new_array, array);
+
+	return new_array;
 }
 
 cm_size_u get_number_of_digits(int64_t value)
