@@ -5,14 +5,7 @@
 
 struct cm_interface_narray CM_NARRAY_INTERFACE;
 
-/*
- * Description:
- * 	Creates a dynamic array of size @size
- * Parameters:
- * 	size - the size of the array
- * Returns:
- * 	A pointer to the allocated NArray structure
- */
+
 struct cm_narray* cm_narray_create(integer size)
 {
 	struct cm_narray* array = NULL;
@@ -26,28 +19,12 @@ struct cm_narray* cm_narray_create(integer size)
 	return array;
 }
 
-/*
- * Description:
- * 	Frees the memory hold by a NArray structure.
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- *  Nothing
- */
 void cm_narray_destroy(struct cm_narray* array)
 {
 	free(array->data);
 	free(array);
 }
 
-/*
- * Description:
- * 	Returns the smallest element of the array
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The smallest element of the array
- */
 real cm_narray_min(const struct cm_narray *array)
 {
 	integer index = 0;
@@ -62,14 +39,6 @@ real cm_narray_min(const struct cm_narray *array)
 	return min_val;
 }
 
-/*
- * Description:
- * 	Returns the largest element of the array
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The largest element of the array
- */
 real cm_narray_max(const struct cm_narray *array)
 {
 	integer index = 0;
@@ -83,14 +52,7 @@ real cm_narray_max(const struct cm_narray *array)
 	}
 	return max_val;
 }
-/*
- * Description:
- * 	Computes the sum of all the elements of the array
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The sum of all the elements of the array
- */
+
 real cm_narray_sum(const struct cm_narray* array)
 {
 	integer index = 0;
@@ -102,14 +64,6 @@ real cm_narray_sum(const struct cm_narray* array)
 	return sum;
 }
 
-/*
- * Description:
- * 	Computes the product of all the elements of the array
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The product of all the elements of the array
- */
 real cm_narray_product(const struct cm_narray* array)
 {
 	integer index;
@@ -121,42 +75,18 @@ real cm_narray_product(const struct cm_narray* array)
 	return product;
 }
 
-/*
- * Description:
- * 	Computes the arithmetic mean of the array's elements
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The arithmetic mean of the array's elements
- */
 real cm_narray_arithmetic_mean(const struct cm_narray* array)
 {
 	real mean = cm_narray_sum(array) / (real) array->data->size;
 	return mean;
 }
 
-/*
- * Description:
- * 	Computes the geometric mean of the array's elements
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The geometric mean of the array's elements
- */
 real cm_narray_geometric_mean(const struct cm_narray* array)
 {
 	real mean = pow(cm_narray_product(array), (1.0f / (real) (array->data->size)));
 	return mean;
 }
 
-/*
- * Description:
- * 	Computes the harmonic mean of the array's elements
- * Parameters:
- * 	array - a pointer to the array structure
- * Returns:
- * 	The harmonic mean of the array's elements
- */
 real cm_narray_harmonic_mean(const struct cm_narray *array)
 {
 	integer index = 0;
@@ -170,14 +100,6 @@ real cm_narray_harmonic_mean(const struct cm_narray *array)
 	return mean;
 }
 
-/**
- * Description:
- * 	Initializes the cm_narray module
- * Parameters:
- *  None
- * Returns:
- *  None
- */
 void module_cm_narray_initialize()
 {
 	CM_NARRAY_INTERFACE.arithmetic_mean = &cm_narray_arithmetic_mean;
