@@ -184,16 +184,16 @@ cm_nmatrix* cm_nmatrix_product(const cm_nmatrix* mat1, const cm_nmatrix* mat2)
  *  @mat must not be NULL
  *  @may must be a square matrix
  */
-cm_narray* cm_nmatrix_get_primary_diagonal_as_array(cm_nmatrix *mat)
+struct cm_narray* cm_nmatrix_get_primary_diagonal_as_array(cm_nmatrix *mat)
 {
 	integer i = 0;
-	cm_narray *array = NULL;
+	struct cm_narray *array = NULL;
 	if (mat->rows == mat->columns)
 	{
-		array = cm_narray_create(array, mat->rows);
+		array = cm_narray_create(mat->rows);
 		for (i = 0; i < mat->rows; i++)
 		{
-			array->data[i] = mat->data[i][i];
+			array->data->content[i] = mat->data[i][i];
 		}
 	}
 	return array;
@@ -211,16 +211,16 @@ cm_narray* cm_nmatrix_get_primary_diagonal_as_array(cm_nmatrix *mat)
  *  @mat must not be NULL
  *  @may must be a square matrix
  */
-cm_narray* cm_nmatrix_get_secondary_diagonal_as_array(cm_nmatrix* mat)
+struct cm_narray* cm_nmatrix_get_secondary_diagonal_as_array(cm_nmatrix* mat)
 {
 	integer i = 0;
-	cm_narray *array = NULL;
+	struct cm_narray *array = NULL;
 	if (mat->rows == mat->columns)
 	{
-		array = cm_narray_create(array, mat->rows);
+		array = cm_narray_create(mat->rows);
 		for (i = 0; i < mat->rows; i++)
 		{
-			array->data[i] = mat->data[i][mat->rows - 1 - i];
+			array->data->content[i] = mat->data[i][mat->rows - 1 - i];
 		}
 	}
 	return array;

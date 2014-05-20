@@ -312,26 +312,21 @@ void module_cm_string_initialize(void)
 	DEFAULT_CM_STRING_INTERFACE.to_upper = &cm_string_to_upper;
 	DEFAULT_CM_STRING_INTERFACE.are_equal = &cm_string_are_equal;
 	DEFAULT_CM_STRING_INTERFACE.compare = &cm_string_compare;
-	DEFAULT_CM_STRING_INTERFACE.compare_insensitive =
-			&cm_string_compare_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.compare_insensitive = &cm_string_compare_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.compare_ordinal = &cm_string_compare_ordinal;
 	DEFAULT_CM_STRING_INTERFACE.concat = &cm_string_concat;
 	DEFAULT_CM_STRING_INTERFACE.contains = &cm_string_contains;
-	DEFAULT_CM_STRING_INTERFACE.contains_insensitive =
-			&cm_string_contains_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.contains_insensitive = &cm_string_contains_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.destroy = &cm_string_destroy;
 	DEFAULT_CM_STRING_INTERFACE.ends_with = &cm_string_ends_with;
-	DEFAULT_CM_STRING_INTERFACE.ends_with_insensitive =
-			&cm_string_ends_with_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.ends_with_insensitive = &cm_string_ends_with_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.from_char = &cm_string_create_from_char;
-	DEFAULT_CM_STRING_INTERFACE.from_char_array =
-			&cm_string_create_from_char_array;
+	DEFAULT_CM_STRING_INTERFACE.from_char_array = &cm_string_create_from_char_array;
 	DEFAULT_CM_STRING_INTERFACE.from_integer = &cm_string_create_from_integer;
 	DEFAULT_CM_STRING_INTERFACE.from_real = &cm_string_create_from_real;
 	DEFAULT_CM_STRING_INTERFACE.from_string = &cm_string_create_from_string;
 	DEFAULT_CM_STRING_INTERFACE.starts_with = &cm_string_starts_with;
-	DEFAULT_CM_STRING_INTERFACE.starts_with_insensitive =
-			&cm_string_starts_with_insensitive;
+	DEFAULT_CM_STRING_INTERFACE.starts_with_insensitive = &cm_string_starts_with_insensitive;
 	DEFAULT_CM_STRING_INTERFACE.destroy = &cm_string_destroy;
 	DEFAULT_CM_STRING_INTERFACE.to_object = &cm_string_to_cm_object;
 }

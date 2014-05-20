@@ -87,3 +87,9 @@ cm_size_u get_number_of_digits(int64_t value)
 
 	return result;
 }
+
+bool double_is_within(double value, double min_value, double max_value)
+{
+	bool result = (value >= min_value) && (value <= max_value);
+	return result;
+}
