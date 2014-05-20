@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdarg.h>
+#include <limits.h>
+#include <float.h>
 
 #include "cm_helpers.h"
 
@@ -92,4 +95,50 @@ bool double_is_within(double value, double min_value, double max_value)
 {
 	bool result = (value >= min_value) && (value <= max_value);
 	return result;
+}
+
+bool uint8_is_within(uint8_t value, uint8_t min_value, uint8_t max_value)
+{
+	bool result = (value >= min_value) && (value <= max_value);
+	return result;
+}
+
+double double_get_min(uint8_t number_of_args, double arg, ...)
+{
+	double min = DBL_MAX;
+	va_list list;
+	uint8_t index;
+	double iterator = 0.0;
+
+	va_start(list, number_of_args);
+	for (index = 0; index < number_of_args; index++)
+	{
+		iterator =  va_arg(list, double);
+		if( iterator < min )
+		{
+			min = iterator;
+		}
+	}
+	va_end(list);
+	return min;
+}
+
+double double_get_max(uint8_t number_of_args, double arg, ...)
+{
+	double max = DBL_MIN;
+	va_list list;
+	uint8_t index;
+	double iterator = 0.0;
+
+	va_start(list, number_of_args);
+	for (index = 0; index < number_of_args; index++)
+	{
+		iterator =  va_arg(list, double);
+		if( iterator > max )
+		{
+			max = iterator;
+		}
+	}
+	va_end(list);
+	return max;
 }
