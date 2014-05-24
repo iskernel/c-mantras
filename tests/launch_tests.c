@@ -1,12 +1,14 @@
 #include "cm_test_base.h"
 #include "base/base_tests.h"
 #include "numeric/numeric_tests.h"
+#include "collections/collections_tests.h"
 
 int main(void)
 {
 	puts("BASE TESTS");
 	//base_run_tests();
-	numeric_run_tests();
+	//numeric_run_tests();
+	collections_run_tests();
     return 0;
 }
 

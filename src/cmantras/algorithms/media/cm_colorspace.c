@@ -1,7 +1,7 @@
 #include <stdbool.h>
 
 #include "cmantras/base/cm_helpers.h"
-#include "cmantras/algorithms/colorspace/cm_colorspace.h"
+#include "cm_colorspace.h"
 
 /*The lower limit for R, G, B (real version), S, I*/
 #define PER_LOWER_LIMIT (0.0f)

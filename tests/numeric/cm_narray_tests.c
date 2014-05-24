@@ -1,9 +1,11 @@
 #include <stdbool.h>
 
-#include "../cm_test_base.h"
-#include "cm_narray_tests.h"
-#include "cmantras/base/cm_helpers.h"
+#include "cmantras/base/cm_base_common.h"
 #include "cmantras/numeric/cm_narray.h"
+
+#include "cm_narray_tests.h"
+#include "../cm_test_base.h"
+
 
 static void cm_narray_create__defined_size__is_created()
 {

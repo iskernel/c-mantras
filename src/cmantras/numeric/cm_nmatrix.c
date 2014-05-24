@@ -1,5 +1,6 @@
 #include "cm_nmatrix.h"
 
+struct cm_interface_nmatrix CM_NARRAY_INTERFACE;
 
 struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows, integer columns)
 {
@@ -10,6 +11,7 @@ struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows, in
 		matrix->data->rows = rows;
 		matrix->data->columns = columns;
 		matrix->data->content = malloc(rows * sizeof(real*));
+		matrix->methods = &CM_NARRAY_INTERFACE;
 		for (i = 0; i < rows; i++)
 		{
 			matrix->data->content[i] = malloc(columns * sizeof(real));
@@ -271,3 +273,5 @@ struct cm_nmatrix* cm_nmatrix_inverse(struct cm_nmatrix* mat)
 	}
 	return inv;
 }
+
+

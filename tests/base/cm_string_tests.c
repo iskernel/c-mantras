@@ -8,7 +8,7 @@
 #include "../cm_test_base.h"
 #include "cm_string_tests.h"
 
-#include "cmantras/base/cm_common.h"
+#include "cmantras/base/cm_base_common.h"
 #include "cmantras/base/cm_string.h"
 
 static void setup()
@@ -286,6 +286,8 @@ static void cm_string_starts_with_insensitive__string_ends_with_substring__is_tr
 
 	assert_is_true(condition,__func__);
 }
+
+
 
 void cm_string_run_tests()
 {

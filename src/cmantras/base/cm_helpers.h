@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include "cm_common.h"
+#include "cmantras/base/cm_base_common.h"
 
 int64_t itoa(int64_t value, char *string, uint8_t radix);
 

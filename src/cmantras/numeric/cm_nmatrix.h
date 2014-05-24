@@ -37,6 +37,16 @@ struct cm_nmatrix
 	struct cm_interface_matrix* methods;
 };
 
+/**
+ * Description:
+ * 	Initializes the cm_nmatrix module. Needs to be called before
+ * 	using cm_nmatrix as an object.
+ * Parameters:
+ *  None
+ * Returns:
+ *  None
+ */
+void module_cm_nmatrix_initialize(void);
 /*
  * Description:
  * 	Alocates spaces for a cm_nmatrix structure according to the parameters
