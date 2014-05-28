@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "cmantras/base/cm_object.h"
+#include "cmantras/base/cm_base_types.h"
 
 struct cm_node
 {
@@ -12,14 +12,26 @@ struct cm_node
 	struct cm_node *previous;
 };
 
+struct cm_list_data
+{
+	struct cm_node *head;
+	struct cm_node *tail;
+
+	uint64_t count;
+};
+
 struct cm_list
 {
+	//struct cm_list_data *data;
 	struct cm_node *head;
 	struct cm_node *tail;
 
 	uint64_t count;
 	struct cm_object_interface *node_methods;
 };
+
+typedef struct cm_list cm_stack_list;
+typedef struct cm_list cm_queue_list;
 
 struct cm_list* cm_list_create(struct cm_object_interface* object_interface);
 

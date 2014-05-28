@@ -3,8 +3,8 @@
 #include "cm_lists_tests.h"
 #include "../cm_test_base.h"
 
-#include "cmantras/base/cm_string.h"
-#include "cmantras/base/cm_object.h"
+#include "cmantras/text/cm_string.h"
+#include "cmantras/base/cm_base_types.h"
 #include "cmantras/collections/cm_list.h"
 
 void cm_list_create__normal_scenario__cm_list_created(void)
@@ -119,7 +119,7 @@ void cm_list_push_back__existing_elements__last_pushed_is_tail(void)
 
 void cm_list_run_tests()
 {
-	module_cm_string_initialize();
+	module_cm_string_init();
 
 	cm_list_create__normal_scenario__cm_list_created();
 	cm_list_push_front__zero_elements__head_and_tail_initialized();

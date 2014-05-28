@@ -3,7 +3,8 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include "cm_common_numeric.h"
+
+#include "cm_common.h"
 
 struct cm_narray_data
 {

@@ -1,61 +1,99 @@
-#include"cm_searching.h"
+#include <stdlib.h>
 
-uint LinearSearch(number key, number array[], number arraySize)
+#include "cmantras/base/cm_base_types.h"
+#include "cmantras/base/cm_error_log.h"
+#include "cm_searching.h"
+
+cm_index cm_search_array_linear(void* key, void** array, cm_size array_size, cm_cmp_size (*compare)(void*, void*))
 {
-	uint i;
-	for (i = 0; i < arraySize && array[i] != key; i++)
-		;
-	return i;
+	cm_index index = 0;
+
+	cm_error_log_critical_if( (array == NULL), __func__, ": array is NULL");
+	cm_error_log_critical_if( (compare == NULL), __func__, ": compare is NULL");
+
+	for ( ; index < array_size && compare(array[index], key) != 0; index++) ;
+	index  = (compare(array[index], key) != 0) ? (-1) : index;
+
+	return index;
 }
 
-uint SentinelLinearSearch(number key, number array[], number arraySize)
+cm_index cm_search_array_sentinel_linear(void* key, void** array, cm_size array_size, cm_cmp_size (*compare)(void*, void*))
 {
-	uint i;
-	array[arraySize] = key;
-	for (i = 0; array[i] != key; i++)
-		;
-	return i;
+	cm_index index = 0;
+
+	array[array_size] = key;
+	for ( ; compare(array[index], key) != 0; index++);
+	index = (index == array_size) ? (-1) : (index);
+
+	return index;
 }
 
-uint BinarySearch(number key, number array[], number arraySize)
+cm_index cm_search_array_binary(void* key, void** array, cm_size array_size, cm_cmp_size (*compare)(void*, void*))
 {
-	uint left = 0, right = arraySize - 1, middle;
-	do
+	cm_index left = 0;
+	cm_index right = array_size - 1;
+	cm_index middle = (left + right) / 2;
+	cm_index result = -1;
+	if( ( compare(key, array[left]) >=0 ) && ( compare(key, array[right]) <=0 ) )
 	{
-		middle = (left + right) / 2;
-		(key > array[middle]) ? (left = middle + 1) : (right = middle - 1);
-	} while (array[middle] != key && left <= right);
-	return (array[middle] != key) ? arraySize : middle;
-}
-
-uint ImprovedBinarySearch(number key, number array[], number arraySize)
-{
-	uint left = 0, right = arraySize, middle;
-	do
-	{
-		middle = (left + right) / 2;
-		(key > array[middle]) ? (left = middle + 1) : (right = middle);
-	} while (left < right);
-	return (((right >= arraySize) || (right < arraySize && array[right] == key)) ?
-			arraySize : right);
-}
-
-uint InterpolationSearch(number key, number array[], number arraySize)
-{
-	uint middle, left = 0, right = arraySize - 1;
-	if (key <= array[right] && key >= array[left])
-		do
+		while( (left <= right) && ( compare(array[middle], key) != 0) )
 		{
-			middle = left
-					+ (key - array[left]) * (right - left)
-							/ (array[right] - array[left]);
-			if (key > array[middle])
-				left = middle + 1;
-			else
-				right = middle - 1;
-		} while (array[middle] != key && left < right
-				&& array[left] != array[right] && key >= array[left]
-				&& key <= array[right]);
-	return middle;
+			(compare(key, array[middle]) > 0) ? (left = middle + 1) : (right = middle + 1);
+			middle = (left + right) / 2;
+		}
+		result  = (compare(array[middle], key) != 0) ? (-1) : middle;
+	}
+	return result;
+}
+
+cm_index cm_search_array_improved_binary(void* key, void** array, cm_size array_size, cm_cmp_size (*compare)(void*, void*))
+{
+	cm_index left = 0;
+	cm_index right = array_size;
+	cm_index middle = (left + right) / 2;
+	cm_index result = -1;
+	if( ( compare(key, array[left]) >=0 ) && ( compare(key, array[right]) <=0 ) )
+	{
+		while( left < right)
+		{
+			( compare(key, array[middle]) > 0 ) ? (left = middle + 1) : (right = middle);
+			middle = (left + right) / 2;
+		}
+		if( (right >= array_size) || ( (right < array_size) && ( compare(array[right], key) == 0 ) ) )
+		{
+			result = -1;
+		}
+		else
+		{
+			result = right;
+		}
+	}
+	return result;
+}
+
+cm_index cm_search_array_interpolation(void* key, void** array, cm_size array_size,
+								 	   cm_cmp_size (*compare)(void*, void*))
+{
+	cm_index left = 0;
+	cm_index right = array_size - 1;
+	cm_index result = -1;
+	cm_index middle = left + compare(key, array[left]) * (right - left)
+					  / compare(array[right], array[left]);
+	if( ( compare(key, array[left]) >=0 ) && ( compare(key, array[right]) <=0 ) )
+	{
+		while ( (compare(array[middle], key) !=0 )
+				&& (left < right)
+				&& (compare(array[left], array[right]) !=0 )
+				&& (compare(key, array[left]) >= 0)
+				&& (compare(key, array[right]) <= 0))
+		{
+			middle = left + compare(key, array[left]) * (right - left)
+					 / compare(array[right], array[left]);
+			(compare(key, array[middle]) > 0) ? (left = middle + 1)
+											  : (right = middle - 1);
+		}
+		result = middle;
+	}
+	return result;
 }
 

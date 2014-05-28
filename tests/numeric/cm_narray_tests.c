@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
-#include "cmantras/base/cm_base_common.h"
+#include "cmantras/numeric/cm_common.h"
+#include "cmantras/base/helpers/cm_numeric.h"
 #include "cmantras/numeric/cm_narray.h"
 
 #include "cm_narray_tests.h"
@@ -123,7 +124,7 @@ static void cm_narray_harmonic_mean__normal_array__is_computed()
 	assert_is_true(condition, __func__);
 }
 
-void cm_array_run_tests(void)
+void cm_narray_run_tests(void)
 {
 	module_cm_narray_initialize();
 	cm_narray_create__defined_size__is_created();

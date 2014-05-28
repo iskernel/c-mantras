@@ -3,5 +3,5 @@
 
 void numeric_run_tests(void)
 {
-	cm_array_run_tests();
+	cm_narray_run_tests();
 }

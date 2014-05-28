@@ -3,7 +3,8 @@
 
 #include <stdlib.h>
 #include <limits.h>
-#include "cm_common_numeric.h"
+
+#include "cmantras/base/helpers/cm_numeric.h"
 #include "cm_narray.h"
 
 struct cm_nmatrix_data

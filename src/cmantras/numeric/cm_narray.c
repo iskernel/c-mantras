@@ -1,4 +1,4 @@
-#include "cm_common_numeric.h"
+#include "cmantras/base/helpers/cm_numeric.h"
 #include "cm_narray.h"
 
 #include <stdlib.h>
