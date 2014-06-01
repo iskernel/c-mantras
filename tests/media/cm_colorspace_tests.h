@@ -1,0 +1,6 @@
+#ifndef CM_COLORSPACE_TESTS_H_
+#define CM_COLORSPACE_TESTS_H_
+
+
+
+#endif /* CM_COLORSPACE_TESTS_H_ */

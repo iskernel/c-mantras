@@ -10,11 +10,6 @@
 
 #include "cmantras/text/cm_string.h"
 
-static void setup()
-{
-    module_cm_string_init();
-}
-
 static void cm_string_create_from_char_array__char_array_defined__is_created()
 {
     const char* TEST_CONTENT = "test content";
@@ -28,8 +23,8 @@ static void cm_string_create_from_char_array__char_array_defined__is_created()
     strcpy(content, TEST_CONTENT);
     string = cm_string_create_from_char_array(content);
 
-    condition = (string->data->length == expectedLength)
-            && (strcmp(string->data->content, TEST_CONTENT) == 0);
+    condition = (string->length == expectedLength)
+                 && (strcmp(string->content, TEST_CONTENT) == 0);
 
     assert_is_true(condition, __func__);
 }
@@ -42,8 +37,8 @@ static void cm_string_create_from_string__other_string_defined__is_created()
 
     string1 = cm_string_create_from_char_array("test content");
     string2 = cm_string_create_from_string(string1);
-    condition = (strcmp(string1->data->content, string2->data->content) == 0)
-            && (string1->data->length == string2->data->length);
+    condition = (strcmp(string1->content, string2->content) == 0)
+                 && (string1->length == string2->length);
     assert_is_true(condition, __func__);
 }
 
@@ -54,8 +49,8 @@ static void cm_string_create_from_char__a_char__isCreated()
     struct cm_string* string = NULL;
 
     string = cm_string_create_from_char(char1);
-    condition = (string->data->length == 1)
-            && (strcmp(string->data->content, "r") == 0);
+    condition = (string->length == 1)
+            && (strcmp(string->content, "r") == 0);
     assert_is_true(condition, __func__);
 }
 
@@ -65,8 +60,8 @@ static void cm_string_create_from_integer__positive_integer__is_created()
     struct cm_string* string = NULL;
 
     string = cm_string_create_from_integer(88, 10);
-    condition = (string->data->length == 2)
-            && (strcmp(string->data->content, "88") == 0);
+    condition = (string->length == 2)
+            && (strcmp(string->content, "88") == 0);
     assert_is_true(condition, __func__);
 }
 
@@ -76,8 +71,8 @@ static void cm_string_create_from_integer__negative_integer__is_created()
     struct cm_string* string = NULL;
 
     string = cm_string_create_from_integer(-88, 10);
-    condition = (string->data->length == 3)
-            && (strcmp(string->data->content, "-88") == 0);
+    condition = (string->length == 3)
+            && (strcmp(string->content, "-88") == 0);
     assert_is_true(condition, __func__);
 }
 
@@ -87,8 +82,8 @@ static void cm_string_create_from_real__positive_real__is_created()
     struct cm_string* string = NULL;
 
     string = cm_string_create_from_real(23.32);
-    condition = (string->data->length == 9)
-            && (strcmp(string->data->content, "23.320000") == 0);
+    condition = (string->length == 9)
+            && (strcmp(string->content, "23.320000") == 0);
     assert_is_true(condition, __func__);
 }
 
@@ -98,8 +93,8 @@ static void cm_string_create_from_real__negative_real__is_created()
     struct cm_string* string = NULL;
 
     string = cm_string_create_from_real(-23.32);
-    condition = (string->data->length == 10)
-            && (strcmp(string->data->content, "-23.320000") == 0);
+    condition = (string->length == 10)
+            && (strcmp(string->content, "-23.320000") == 0);
     assert_is_true(condition, __func__);
 }
 
@@ -109,8 +104,8 @@ static void cm_string_to_lower__normal_string__string_is_lower()
     bool condition = false;
 
     string = cm_string_create_from_char_array("This is a CHAR array");
-    string->methods->to_lower(string);
-    condition = (strcmp(string->data->content, "this is a char array") == 0);
+    cm_string_to_lower(string);
+    condition = (strcmp(string->content, "this is a char array") == 0);
 
     assert_is_true(condition, __func__);
 }
@@ -121,8 +116,8 @@ static void cm_string_to_upper__normal_string__string_is_upper()
     bool condition = false;
 
     string = cm_string_create_from_char_array("This is a CHAR array");
-    string->methods->to_upper(string);
-    condition = (strcmp(string->data->content, "THIS IS A CHAR ARRAY") == 0);
+    cm_string_to_upper(string);
+    condition = (strcmp(string->content, "THIS IS A CHAR ARRAY") == 0);
 
     assert_is_true(condition, __func__);
 }
@@ -137,7 +132,7 @@ static void cm_string_compare__normal_strings__comparation_as_expected()
     string_1 = cm_string_create_from_char_array("This is string1");
     string_2 = cm_string_create_from_char_array("This is string2");
 
-    cmp = string_1->methods->compare(string_1, string_2);
+    cmp = cm_string_compare(string_1, string_2);
     condition = (cmp == -1);
 
     assert_is_true(condition, __func__);
@@ -153,7 +148,7 @@ static void cm_string_compare_insensitive__normal_strings__comparation_as_expect
     string_1 = cm_string_create_from_char_array("THis is StRing1");
     string_2 = cm_string_create_from_char_array("ThIs iS sTrIng2");
 
-    cmp = string_1->methods->compare_insensitive(string_1, string_2);
+    cmp = cm_string_compare_insensitive(string_1, string_2);
     condition = (cmp == -1);
 
     assert_is_true(condition, __func__);
@@ -169,7 +164,7 @@ static void cm_string_compare_ordinal__normal_strings__within_expected_range()
     string_1 = cm_string_create_from_char_array("22.33");
     string_2 = cm_string_create_from_char_array("33.22");
 
-    cmp = string_1->methods->compare_ordinal(string_1, string_2);
+    cmp = cm_string_compare_ordinal(string_1, string_2);
     condition = (cmp >= -11) && (cmp <= -10);
 
     assert_is_true(condition, __func__);
@@ -184,7 +179,7 @@ static void cm_string_compare_are_equal__string_are_equal__is_true()
     string_1 = cm_string_create_from_char_array("This is string");
     string_2 = cm_string_create_from_char_array("This is string");
 
-    condition = (string_1->methods->are_equal(string_1, string_2) == true);
+    condition = (cm_string_are_equal(string_1, string_2) == true);
 
     assert_is_true(condition, __func__);
 }
@@ -201,8 +196,8 @@ static void cm_string_concat__multiple_string__concatenation_successful()
     string_2 = cm_string_create_from_char_array("54321");
     string_3 = cm_string_create_from_char_array("12345");
 
-    result = string_1->methods->concat(string_1, string_2, string_3, NULL);
-    condition = (strcmp(result->data->content, "123455432112345") == 0);
+    result = cm_string_concat(string_1, string_2, string_3, NULL);
+    condition = (strcmp(result->content, "123455432112345") == 0);
 
     assert_is_true(condition, __func__);
 }
@@ -216,7 +211,7 @@ static void cm_string_contains__string_contains_substring__is_true()
     string_1 = cm_string_create_from_char_array("1234554321");
     string_2 = cm_string_create_from_char_array("54321");
 
-    condition = string_1->methods->contains(string_1, string_2);
+    condition = cm_string_contains(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
@@ -230,7 +225,7 @@ static void cm_string_contains_insensitive__string_contains_substring__is_true()
     string_1 = cm_string_create_from_char_array("abcdef");
     string_2 = cm_string_create_from_char_array("DEF");
 
-    condition = string_1->methods->contains_insensitive(string_1, string_2);
+    condition = cm_string_contains_insensitive(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
@@ -244,7 +239,7 @@ static void cm_string_ends_with__string_ends_with_substring__is_true()
     string_1 = cm_string_create_from_char_array("abcdef");
     string_2 = cm_string_create_from_char_array("def");
 
-    condition = string_1->methods->ends_with(string_1, string_2);
+    condition = cm_string_ends_with(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
@@ -258,7 +253,7 @@ static void cm_string_ends_with_insensitive__string_ends_with_substring__is_true
     string_1 = cm_string_create_from_char_array("abcdef");
     string_2 = cm_string_create_from_char_array("DEF");
 
-    condition = string_1->methods->ends_with_insensitive(string_1, string_2);
+    condition = cm_string_ends_with_insensitive(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
@@ -272,7 +267,7 @@ static void cm_string_starts_with__string_ends_with_substring__is_true()
     string_1 = cm_string_create_from_char_array("abcdef");
     string_2 = cm_string_create_from_char_array("abc");
 
-    condition = string_1->methods->starts_with(string_1, string_2);
+    condition = cm_string_starts_with(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
@@ -286,14 +281,13 @@ static void cm_string_starts_with_insensitive__string_ends_with_substring__is_tr
     string_1 = cm_string_create_from_char_array("abcdef");
     string_2 = cm_string_create_from_char_array("ABC");
 
-    condition = string_1->methods->starts_with_insensitive(string_1, string_2);
+    condition = cm_string_starts_with_insensitive(string_1, string_2);
 
     assert_is_true(condition, __func__);
 }
 
 void cm_string_run_tests()
 {
-    setup();
     cm_string_create_from_char_array__char_array_defined__is_created();
     cm_string_create_from_string__other_string_defined__is_created();
     cm_string_create_from_char__a_char__isCreated();

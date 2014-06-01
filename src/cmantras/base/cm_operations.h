@@ -1,5 +1,5 @@
-#ifndef CM_ERROR_HANDLING_H_
-#define CM_ERROR_HANDLING_H_
+#ifndef BASE_CM_OPERATIONS_H_
+#define BASE_CM_OPERATIONS_H_
 
 #include "cmantras/base/cm_base_types.h"
 

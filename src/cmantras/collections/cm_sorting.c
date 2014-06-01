@@ -36,11 +36,13 @@ void cm_sort_array_quicksort(void** array, cm_size array_size,
     cm_index left = 0;
     cm_index pivot = 0;
     cm_index top = -1;
-    cm_index stack[array_size - left + 1];
+    cm_index stack[array_size -1 - left + 1];
 
     cm_error_log_critical_if((array == NULL), __func__, ": array is NULL");
     cm_error_log_critical_if((compare == NULL), __func__, ": compare is NULL");
+    cm_error_log_critical_if((array_size < 1), __func__, ": array_size < 1");
 
+    array_size--;
     // push initial values of l and h to stack
     stack[++top] = left;
     stack[++top] = array_size;

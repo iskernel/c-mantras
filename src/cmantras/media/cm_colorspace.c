@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
 #include "cmantras/base/helpers/cm_numeric.h"
+#include "cmantras/base/cm_error_log.h"
 #include "cm_colorspace.h"
 
 /*The lower limit for R, G, B (real version), S, I*/
@@ -32,7 +33,7 @@
 /*The lower limit for V in YUV*/
 #define YUV_V_LOWER_LIMIT (-0.615f)
 
-bool cm_rgb_f_is_valid(double r, double g, double b)
+static bool cm_rgb_f_is_valid(double r, double g, double b)
 {
     bool is_valid = true;
     if ((double_is_within(r, PER_LOWER_LIMIT, PER_UPPER_LIMIT) == false)
@@ -44,7 +45,7 @@ bool cm_rgb_f_is_valid(double r, double g, double b)
     return is_valid;
 }
 
-bool cm_hsi_is_valid(double h, double s, double i)
+static bool cm_hsi_is_valid(double h, double s, double i)
 {
     bool isValid = true;
     if ((double_is_within(h, HUE_LOWER_LIMIT, HUE_UPPER_LIMIT) == false)
@@ -56,7 +57,7 @@ bool cm_hsi_is_valid(double h, double s, double i)
     return isValid;
 }
 
-bool cm_rgb_i_is_valid(uint8_t r, uint8_t g, uint8_t b)
+static bool cm_rgb_i_is_valid(uint8_t r, uint8_t g, uint8_t b)
 {
     bool isValid = true;
     if ((uint8_is_within(r, RGBI_LOWER_LIMIT, RGBI_UPPER_LIMIT) == false)
@@ -68,7 +69,7 @@ bool cm_rgb_i_is_valid(uint8_t r, uint8_t g, uint8_t b)
     return isValid;
 }
 
-bool cm_hsl_is_valid(double h, double s, double l)
+static bool cm_hsl_is_valid(double h, double s, double l)
 {
     bool isValid = true;
     if ((double_is_within(h, HUE_LOWER_LIMIT, HUE_UPPER_LIMIT) == false)
@@ -80,7 +81,7 @@ bool cm_hsl_is_valid(double h, double s, double l)
     return isValid;
 }
 
-bool cm_hsv_is_valid(double h, double s, double v)
+static bool cm_hsv_is_valid(double h, double s, double v)
 {
     bool isValid = true;
     if ((double_is_within(h, HUE_LOWER_LIMIT, HUE_UPPER_LIMIT) == false)
@@ -92,7 +93,7 @@ bool cm_hsv_is_valid(double h, double s, double v)
     return isValid;
 }
 
-bool cm_yiq_is_valid(double y, double i, double q)
+static bool cm_yiq_is_valid(double y, double i, double q)
 {
     bool isValid = true;
     if ((double_is_within(y, PER_LOWER_LIMIT, PER_UPPER_LIMIT) == false)
@@ -106,7 +107,7 @@ bool cm_yiq_is_valid(double y, double i, double q)
     return isValid;
 }
 
-bool cm_yuv_is_valid(double y, double u, double v)
+static bool cm_yuv_is_valid(double y, double u, double v)
 {
     bool isValid = true;
     if ((double_is_within(y, PER_LOWER_LIMIT, PER_UPPER_LIMIT) == false)
@@ -133,6 +134,10 @@ struct cm_rgb_f_color* cm_rgb_f_create(double r, double g, double b)
             color->B = b;
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -148,6 +153,10 @@ struct cm_rgb_i_color* cm_rgb_i_create(uint8_t r, uint8_t g, uint8_t b)
             color->G = g;
             color->B = b;
         }
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -165,6 +174,10 @@ struct cm_hsi_color* cm_hsi_create(double h, double s, double i)
             color->I = i;
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -180,6 +193,10 @@ struct cm_hsl_color* cm_hsl_create(double h, double s, double l)
             color->S = s;
             color->L = l;
         }
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -197,6 +214,10 @@ struct cm_hsv_color* cm_hsv_create(double h, double s, double v)
             color->V = v;
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -213,6 +234,10 @@ struct cm_yiq_color* cm_yiq_create(double y, double i, double q)
             color->Q = q;
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -228,6 +253,10 @@ struct cm_yuv_color* cm_yuv_create(double y, double u, double v)
             color->U = u;
             color->V = v;
         }
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -260,6 +289,10 @@ struct cm_rgb_f_color* cm_rgb_f_from_hsi(double h, double s, double i)
             color->B = (1.0f / 3.0f) * ((s * cos(h)) / cos(60.0f - h));
             color->R = 1.0f - (color->G + color->B);
         }
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -304,6 +337,10 @@ struct cm_rgb_f_color* cm_rgb_f_from_hsl(double h, double s, double l)
             color = cm_rgb_f_create(m, m, m);
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -345,6 +382,10 @@ struct cm_rgb_f_color* cm_rgb_f_from_hsv(double h, double s, double v)
             color = cm_rgb_f_create(m, m, m);
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -358,18 +399,26 @@ struct cm_rgb_f_color* cm_rgb_f_from_yiq(double y, double i, double q)
         color->G = y - 0.2721f * i - 0.6474f * q;
         color->B = y - 1.1070f * i + 1.7046f * q;
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
 struct cm_rgb_f_color* cm_rgb_f_from_yuv(double y, double u, double v)
 {
     struct cm_rgb_f_color* color = NULL;
-    if (cm_yiq_is_valid(y, u, v) == true)
+    if (cm_yuv_is_valid(y, u, v) == true)
     {
         color = cm_rgb_f_create(0.0f, 0.0f, 0.0f);
         color->R = y + 1.140f * v;
         color->G = y - 0.395f * u - 0.581f * v;
         color->B = y + 2.032f * u;
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -407,6 +456,10 @@ struct cm_hsi_color* cm_hsi_from_rgb_f(double r, double g, double b)
             color->S = 1.0f - (m / color->I);
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -438,6 +491,10 @@ struct cm_hsl_color* cm_hsl_from_rgb_f(double r, double g, double b)
             color->H *= 60.0f;
             color->S = c / (1.0f - fabs(2.0f * color->L - 1.0f));
         }
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -471,6 +528,10 @@ struct cm_hsv_color* cm_hsv_from_rgb_f(double r, double g, double b)
             color->S = c / color->V;
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -484,6 +545,10 @@ struct cm_yiq_color* cm_yiq_from_rgb_f(double r, double g, double b)
         color->I = 0.595716f * r - 0.274453 * b - 0.321264 * b;
         color->Q = 0.211456f * r - 0.522591 * b + 0.31135f * b;
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -496,6 +561,10 @@ struct cm_yuv_color* cm_yuv_from_rgb_f(double r, double g, double b)
         color->Y = 0.299f * r + 0.587f * b + 0.114f * b;
         color->U = 0.492f * (b - color->Y);
         color->V = 0.877f * (r - color->Y);
+    }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
     }
     return color;
 }
@@ -513,6 +582,10 @@ struct cm_rgb_i_color* cm_rgb_i_from_rgb_f(double r, double g, double b)
             color->B = (uint8_t) (b * (double) RGBI_UPPER_LIMIT + 0.5f);
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
 
@@ -529,5 +602,10 @@ struct cm_rgb_f_color* cm_rgb_f_from_rgb_i(uint8_t r, uint8_t g, uint8_t b)
             color->B = (double) (b) / (double) (RGBI_UPPER_LIMIT);
         }
     }
+    else
+    {
+        cm_error_log_critical(__func__, "Invalid values for color");
+    }
     return color;
 }
+

@@ -16,5 +16,11 @@
 #define RUN_CM_ARRAY_SET_TESTS 1
 #define RUN_CM_SORTING_TESTS 1
 #define RUN_CM_SEARCHING_TESTS 1
+/* Cryptography */
+#define RUN_CRYPTOGRAPHY 1
+#define RUN_CM_CLASSICAL_CIPHERS 1
+/* Media */
+#define RUN_COLORSPACE 1
+#define RUN_G711 1
 
 #endif /* CM_TESTS_CONFIGURATION_H_ */

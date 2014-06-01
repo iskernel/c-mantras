@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cm_error_log.h"
 #include "cm_operations.h"
 #include "helpers/cm_text.h"
-#include "cm_error_log.h"
+
 
 struct cm_operation_status* cm_operation_status_create(enum cm_operation_result_code status,
 													   const char* message)

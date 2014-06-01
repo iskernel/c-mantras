@@ -44,12 +44,12 @@ void assert_is_true(bool condition, const char* test_name)
 
     if (condition == true)
     {
-        printf("%30s  %30s %30s %10s \n", function, scenario, expected_result,
+        printf("%50s  %30s %30s %10s \n", function, scenario, expected_result,
                "SUCCESS");
     }
     else
     {
-        printf("%30s %30s %30s 10%s \n", function, scenario, expected_result,
+        printf("%50s %30s %30s 10%s \n", function, scenario, expected_result,
                "FAILED");
     }
     free(function);
@@ -67,12 +67,12 @@ void assert_is_false(bool condition, const char* test_name)
 
     if (condition == false)
     {
-        printf("%30s  %30s %30s %10s \n", function, scenario, expected_result,
+        printf("%50s  %30s %30s %10s \n", function, scenario, expected_result,
                "SUCCESS");
     }
     else
     {
-        printf("%30s %30s %30s 10%s \n", function, scenario, expected_result,
+        printf("%50s %30s %30s 10%s \n", function, scenario, expected_result,
                "FAILED");
     }
     free(function);
@@ -87,7 +87,7 @@ void assert_win(const char* test_name)
     char* expected_result = NULL;
 
     separate_test(test_name, &function, &scenario, &expected_result);
-    printf("%30s  %30s %30s %10s \n", function, scenario, expected_result,
+    printf("%50s  %30s %30s %10s \n", function, scenario, expected_result,
            "SUCCESS");
 
     free(function);
@@ -102,7 +102,7 @@ void assert_fail(const char* test_name)
     char* expected_result = NULL;
 
     separate_test(test_name, &function, &scenario, &expected_result);
-    printf("%30s %30s %30s 10%s \n", function, scenario, expected_result,
+    printf("%50s %30s %30s 10%s \n", function, scenario, expected_result,
            "FAILED");
 
     free(function);
@@ -116,10 +116,10 @@ void run_if(bool condition, const char* message, void (*function)(void))
     {
         puts("===========================================");
         puts(message);
-        printf("%30s  %30s %30s %10s \n", "FUNCTION", "SCENARIO",
+        printf("%50s  %30s %30s %10s \n", "FUNCTION", "SCENARIO",
                "EXPECTED_RESULT", "STATUS");
         function();
-        printf("%s finished with success\n", message);
+        printf("\n%s finished with success\n", message);
         puts("===========================================");
     }
 }

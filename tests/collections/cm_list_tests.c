@@ -13,7 +13,7 @@ static cm_cmp_size compare_strings(const void* string1, const void* string2)
 {
     struct cm_string* s1 = (struct cm_string*) (string1);
     struct cm_string* s2 = (struct cm_string*) (string2);
-    cm_cmp_size size = strcmp(s1->data->content, s2->data->content);
+    cm_cmp_size size = strcmp(s1->content, s2->content);
     return size;
 }
 
@@ -363,8 +363,6 @@ static void cm_list_contains__value_does_not_exist__is_false()
 
 void cm_list_run_tests()
 {
-    module_cm_string_init();
-
     cm_list_create__normal_scenario__cm_list_created();
     cm_list_push_front__zero_elements__head_and_tail_initialized();
     cm_list_push_front__existing_elements__last_pushed_is_first();
