@@ -11,8 +11,13 @@ struct cm_arrayset* cm_arrayset_create(cm_size capacity, cm_cmp_size (*compare)(
 	struct cm_arrayset* set = NULL;
 
 	set = malloc(sizeof(struct cm_arrayset));
+	cm_error_log_critical_if( (set == NULL), __func__, "set is null");
+
+
 	set->element_size = sizeof(void*);
 	set->content =  malloc( set->element_size * capacity );
+	cm_error_log_critical_if( (set == NULL), __func__, "content is null");
+
 	set->capacity = capacity;
 	set->size = 0;
 	set->compare = compare;
@@ -209,7 +214,7 @@ struct cm_arrayset* cm_arrayset_reunion(const struct cm_arrayset* set1, const st
 struct cm_arrayset* cm_arrayset_intersection(const struct cm_arrayset* set1, const struct cm_arrayset* set2)
 {
 	struct cm_arrayset* result = NULL;
-	int i,j;
+	cm_index i,j;
 	bool was_found = false;
 
 	cm_error_log_critical_if( (set1 == NULL), __func__, "set 1 is null");

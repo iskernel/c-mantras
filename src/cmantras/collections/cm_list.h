@@ -12,28 +12,16 @@ struct cm_node
 	struct cm_node *previous;
 };
 
-struct cm_list_data
-{
-	struct cm_node *head;
-	struct cm_node *tail;
-
-	uint64_t count;
-};
-
 struct cm_list
 {
-	//struct cm_list_data *data;
 	struct cm_node *head;
 	struct cm_node *tail;
 
-	uint64_t count;
-	struct cm_object_interface *node_methods;
+	cm_size count;
+	cm_cmp_size (*compare)(const void*, const void*);
 };
 
-typedef struct cm_list cm_stack_list;
-typedef struct cm_list cm_queue_list;
-
-struct cm_list* cm_list_create(struct cm_object_interface* object_interface);
+struct cm_list* cm_list_create(cm_cmp_size (*compare)(const void*, const void*));
 
 void cm_list_push_front(struct cm_list* list, void* element);
 void cm_list_pop_front(struct cm_list* list);
@@ -42,9 +30,11 @@ void cm_list_push_back(struct cm_list* list, void* element);
 void cm_list_pop_back(struct cm_list* list);
 
 void cm_list_remove(struct cm_list* list, void* element);
-void cm_list_apply_node_transform(struct cm_list* list, void* (*transform)(void*));
+void cm_list_apply_node_transform(struct cm_list* list, void (*transform)(void*));
 
-void* cm_list_at_index(struct cm_list* list, uint64_t index);
+void* cm_list_at_index(struct cm_list* list, cm_index index);
 bool cm_list_contains(struct cm_list* list, void* element);
+
+void cm_list_destroy(struct cm_list* list);
 
 #endif /* CM_ENUMERABLE_H_ */

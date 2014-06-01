@@ -1,11 +1,17 @@
 #include <stdlib.h>
+
+#include "cmantras/base/cm_base_types.h"
+#include "cmantras/base/cm_error_log.h"
+
 #include "cm_list.h"
 
 static struct cm_node* cm_node_create(void *element)
 {
-	struct cm_node* node;
+	struct cm_node* node = NULL;
 
 	node = malloc(sizeof(struct cm_node));
+	cm_error_log_critical_if( (node == NULL), __func__, ": not enough memory");
+
 	node->element = element;
 	node->next = NULL;
 	node->previous = NULL;
@@ -13,15 +19,22 @@ static struct cm_node* cm_node_create(void *element)
 	return node;
 }
 
-struct cm_list* cm_list_create(struct cm_object_interface* object_interface)
+static void cm_node_destroy(struct cm_node* node)
+{
+	free(node);
+}
+
+struct cm_list* cm_list_create(cm_cmp_size (*compare)(const void*, const void*))
 {
 	struct cm_list *list = NULL;
 
 	list = malloc(sizeof(struct cm_list));
+	cm_error_log_critical_if( (list == NULL), __func__, ": not enough memory");
+
 	list->count = 0U;
 	list->head = NULL;
 	list->tail = NULL;
-	list->node_methods = object_interface;
+	list->compare = compare;;
 
 	return list;
 }
@@ -29,6 +42,9 @@ struct cm_list* cm_list_create(struct cm_object_interface* object_interface)
 void cm_list_push_front(struct cm_list* list, void* element)
 {
 	struct cm_node *node = NULL;
+
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
+	cm_error_log_critical_if( (element == NULL), __func__, ": element is null");
 
 	node = cm_node_create(element);
 	if(list->head == NULL)
@@ -48,6 +64,8 @@ void cm_list_push_front(struct cm_list* list, void* element)
 void cm_list_pop_front(struct cm_list* list)
 {
 	struct cm_node *temp = NULL;
+
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
 
 	if(list->head != NULL)
 	{
@@ -71,6 +89,9 @@ void cm_list_push_back(struct cm_list* list, void* element)
 {
 	struct cm_node* node = NULL;
 
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
+	cm_error_log_critical_if( (element == NULL), __func__, ": element is null");
+
 	node = cm_node_create(element);
 	if(list->tail == NULL)
 	{
@@ -89,6 +110,8 @@ void cm_list_push_back(struct cm_list* list, void* element)
 void cm_list_pop_back(struct cm_list* list)
 {
 	struct cm_node* temp = NULL;
+
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
 
 	if(list->tail != NULL)
 	{
@@ -112,11 +135,32 @@ void cm_list_remove(struct cm_list* list, void* element)
 {
 	struct cm_node* iterator = NULL;
 
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
+	cm_error_log_critical_if( (element == NULL), __func__, ": element is null");
+
 	for(iterator = list->head; iterator != NULL; iterator = iterator->next)
 	{
-		if(list->node_methods->equals(iterator->element, element) == true)
+		if(list->compare(iterator->element, element) == 0)
 		{
-			iterator->previous->next = iterator->next;
+			if( (iterator->previous == NULL) && (iterator->next == NULL) )
+			{
+				list->head = NULL;
+				list->tail = NULL;
+			}
+			else if(iterator->previous == NULL)
+			{
+				list->head = list->head->next;
+				list->head->previous = NULL;
+			}
+			else if(iterator->next == NULL)
+			{
+				list->tail = list->tail->previous;
+				list->tail->next = NULL;
+			}
+			else
+			{
+				iterator->previous->next = iterator->next;
+			}
 			free(iterator);
 			list->count--;
 			break;
@@ -124,30 +168,39 @@ void cm_list_remove(struct cm_list* list, void* element)
 	}
 }
 
-void cm_list_apply_node_transform(struct cm_list* list, void* (*transform)(void*))
+void cm_list_apply_node_transform(struct cm_list* list, void (*transform)(void*))
 {
 	struct cm_node* iterator = NULL;
+
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
+	cm_error_log_critical_if( (transform == NULL), __func__, ": transform is null");
 
 	for(iterator = list->head; iterator != NULL; iterator = iterator->next)
 	{
-		iterator->element = transform(iterator->element);
+		transform(iterator->element);
 	}
 }
 
-void* cm_list_at_index(struct cm_list* list, uint64_t index)
+void* cm_list_at_index(struct cm_list* list, cm_index index)
 {
 	struct cm_node* iterator = NULL;
-	uint64_t index_iterator = 0;
+	void* result = NULL;
+	uint64_t index_iterator = -1;
+
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
 
 	if(index < list->count)
 	{
+		index_iterator = 0;
 		iterator = list->head;
 		while(index_iterator < index)
 		{
 			iterator = iterator->next;
+			index_iterator++;
 		}
 	}
-	return iterator;
+	result = iterator->element;
+	return result;
 }
 
 bool cm_list_contains(struct cm_list* list, void* element)
@@ -155,9 +208,12 @@ bool cm_list_contains(struct cm_list* list, void* element)
 	struct cm_node* iterator = NULL;
 	bool result = false;
 
+	cm_error_log_critical_if( (list == NULL), __func__, ": list is null");
+	cm_error_log_critical_if( (element == NULL), __func__, ": element is null");
+
 	for(iterator = list->head; iterator != NULL; iterator = iterator->next)
 	{
-		if(list->node_methods->equals(iterator->element, element) == true)
+		if(list->compare(iterator->element, element) == 0)
 		{
 			result = true;
 			break;
@@ -167,3 +223,15 @@ bool cm_list_contains(struct cm_list* list, void* element)
 	return result;
 }
 
+void cm_list_destroy(struct cm_list* list)
+{
+	struct cm_node* iterator = list->head;
+	struct cm_node* other = NULL;
+	while(iterator != NULL)
+	{
+		other = iterator;
+		iterator = iterator->next;
+		cm_node_destroy(other);
+	}
+	free(list);
+}

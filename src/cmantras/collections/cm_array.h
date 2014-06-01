@@ -1,6 +1,7 @@
 #ifndef CM_ARRAY_H_
 #define CM_ARRAY_H_
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include "cmantras/base/cm_base_types.h"
 
