@@ -1,7 +1,6 @@
 #ifndef CM_ALLOC_H_
 #define CM_ALLOC_H_
 
-
 #include <stdlib.h>
 
 /*
@@ -26,7 +25,8 @@ void* cm_nalloc_1d(void* vector, size_t x_size, size_t element_size);
  * Returns:
  *  A pointer to the allocated array
  */
-void** cm_nalloc_2d(void **vector, size_t x_size, size_t y_size, size_t element_size);
+void** cm_nalloc_2d(void **vector, size_t x_size, size_t y_size,
+                    size_t element_size);
 /*
  * Abstract:
  * 	Allocates a 3D array
@@ -39,7 +39,8 @@ void** cm_nalloc_2d(void **vector, size_t x_size, size_t y_size, size_t element_
  * Returns:
  *  A pointer to the allocated array
  */
-void*** cm_nalloc_3d(void ***vector, size_t x_size, size_t y_size, size_t z_size, size_t element_size);
+void*** cm_nalloc_3d(void ***vector, size_t x_size, size_t y_size,
+                     size_t z_size, size_t element_size);
 /*
  * Abstract:
  * 	Allocates a 4D array
@@ -53,7 +54,8 @@ void*** cm_nalloc_3d(void ***vector, size_t x_size, size_t y_size, size_t z_size
  * Returns:
  *  NULL
  */
-void**** cm_nalloc_4d(void ****vector, size_t x_size, size_t y_size, size_t z_size, size_t tsize, size_t element_size);
+void**** cm_nalloc_4d(void ****vector, size_t x_size, size_t y_size,
+                      size_t z_size, size_t tsize, size_t element_size);
 
 /*
  * Abstract:
@@ -97,6 +99,5 @@ void cm_nfree_3d(void ***vector, size_t x_size, size_t y_size);
  *  NULL
  */
 void cm_nfree_4d(void ****vector, size_t x_size, size_t y_size, size_t z_size);
-
 
 #endif

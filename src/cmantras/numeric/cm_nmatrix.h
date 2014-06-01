@@ -9,33 +9,36 @@
 
 struct cm_nmatrix_data
 {
-   real** content;
-   integer rows;
-   integer columns;
+    real** content;
+    integer rows;
+    integer columns;
 };
 
 struct cm_nmatrix;
 
 struct cm_interface_nmatrix
 {
-	struct cm_nmatrix* (*destroy)(struct cm_nmatrix*);
-	struct cm_nmatrix* (*copy)(const struct cm_nmatrix*);
-	struct cm_nmatrix* (*add)(const struct cm_nmatrix*, const struct cm_nmatrix*);
-	struct cm_nmatrix* (*multiply_with_scalar)(const struct cm_nmatrix*, real);
-	struct cm_nmatrix* (*muliply)(const struct cm_nmatrix*, const struct cm_nmatrix*);
-	struct cm_narray* (*get_secondary_diagonal_as_array)(struct cm_nmatrix*);
-	struct cm_narray* (*get_primary_diagonal_as_array)(struct cm_nmatrix*);
-	struct cm_nmatrix* (*get_minor)(const struct cm_nmatrix, integer, integer, integer);
-	real (*get_determinant)(const struct cm_nmatrix*, integer);
-	struct cm_nmatrix* (*get_transpose)(const struct cm_nmatrix*);
-	struct cm_nmatrix* (*get_adjugate)(const struct cm_nmatrix*);
-	struct cm_nmatrix* (*get_inverse)(struct cm_nmatrix*);
+    struct cm_nmatrix* (*destroy)(struct cm_nmatrix*);
+    struct cm_nmatrix* (*copy)(const struct cm_nmatrix*);
+    struct cm_nmatrix* (*add)(const struct cm_nmatrix*,
+                              const struct cm_nmatrix*);
+    struct cm_nmatrix* (*multiply_with_scalar)(const struct cm_nmatrix*, real);
+    struct cm_nmatrix* (*muliply)(const struct cm_nmatrix*,
+                                  const struct cm_nmatrix*);
+    struct cm_narray* (*get_secondary_diagonal_as_array)(struct cm_nmatrix*);
+    struct cm_narray* (*get_primary_diagonal_as_array)(struct cm_nmatrix*);
+    struct cm_nmatrix* (*get_minor)(const struct cm_nmatrix, integer, integer,
+                                    integer);
+    real (*get_determinant)(const struct cm_nmatrix*, integer);
+    struct cm_nmatrix* (*get_transpose)(const struct cm_nmatrix*);
+    struct cm_nmatrix* (*get_adjugate)(const struct cm_nmatrix*);
+    struct cm_nmatrix* (*get_inverse)(struct cm_nmatrix*);
 };
 
 struct cm_nmatrix
 {
-	struct cm_nmatrix_data* data;
-	struct cm_interface_matrix* methods;
+    struct cm_nmatrix_data* data;
+    struct cm_interface_matrix* methods;
 };
 
 /**
@@ -59,7 +62,8 @@ void module_cm_nmatrix_initialize(void);
  * Returns:
  *  A pointer to the allocated matrix structure.
  */
-struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows, integer columns);
+struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows,
+                                     integer columns);
 /*
  * Description:
  * 	Free the space hold by a cm_nmatrix structure
@@ -89,7 +93,8 @@ struct cm_nmatrix* cm_nmatrix_copy(const struct cm_nmatrix *source);
  *  If the rows/columns of mat1 and mat2 are not
  * equal, the result will be NULL
  */
-struct cm_nmatrix* cm_nmatrix_add(const struct cm_nmatrix* matrix1, const struct cm_nmatrix* matrix2);
+struct cm_nmatrix* cm_nmatrix_add(const struct cm_nmatrix* matrix1,
+                                  const struct cm_nmatrix* matrix2);
 /*
  * Description:
  * 	Multiplies a cm_nmatrix with a scalar
@@ -98,7 +103,8 @@ struct cm_nmatrix* cm_nmatrix_add(const struct cm_nmatrix* matrix1, const struct
  * Returns:
  *  A pointer to the result matrix.
  */
-struct cm_nmatrix* cm_nmatrix_multiply_with_scalar(const struct cm_nmatrix* matrix, real value);
+struct cm_nmatrix* cm_nmatrix_multiply_with_scalar(
+        const struct cm_nmatrix* matrix, real value);
 /*
  * Description:
  * 	Returns the product of two matrices
@@ -108,7 +114,8 @@ struct cm_nmatrix* cm_nmatrix_multiply_with_scalar(const struct cm_nmatrix* matr
  * Returns:
  *  A pointer to the result matrix.
  */
-struct cm_nmatrix* cm_nmatrix_muliply(const struct cm_nmatrix* matrix1, const struct cm_nmatrix* matrix2);
+struct cm_nmatrix* cm_nmatrix_muliply(const struct cm_nmatrix* matrix1,
+                                      const struct cm_nmatrix* matrix2);
 /*
  * Description:
  * 	Returns the primary diagonal of a square
@@ -122,7 +129,8 @@ struct cm_nmatrix* cm_nmatrix_muliply(const struct cm_nmatrix* matrix1, const st
  *  @mat must not be NULL
  *  @may must be a square matrix
  */
-struct cm_narray* cm_nmatrix_get_secondary_diagonal_as_array(const struct cm_nmatrix* matrix);
+struct cm_narray* cm_nmatrix_get_secondary_diagonal_as_array(
+        const struct cm_nmatrix* matrix);
 /*
  * Description:
  * 	Returns the secondary diagonal of a square
@@ -136,7 +144,8 @@ struct cm_narray* cm_nmatrix_get_secondary_diagonal_as_array(const struct cm_nma
  *  @mat must not be NULL
  *  @may must be a square matrix
  */
-struct cm_narray* cm_nmatrix_get_primary_diagonal_as_array(const struct cm_nmatrix *matrix);
+struct cm_narray* cm_nmatrix_get_primary_diagonal_as_array(
+        const struct cm_nmatrix *matrix);
 /*
  * Description:
  * 	Computes the minor of a given matrix according to
@@ -156,7 +165,9 @@ struct cm_narray* cm_nmatrix_get_primary_diagonal_as_array(const struct cm_nmatr
  *  @order must be greater than 1 but smaller than
  *  the size of the matrix
  */
-struct cm_nmatrix* cm_nmatrix_get_minor(const struct cm_nmatrix *matrix, integer row, integer column, integer order);
+struct cm_nmatrix* cm_nmatrix_get_minor(const struct cm_nmatrix *matrix,
+                                        integer row, integer column,
+                                        integer order);
 /*
  * Description:
  * 	Computes the determinant of a given matrix

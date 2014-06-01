@@ -7,7 +7,7 @@
 
 void base_run_tests(void)
 {
-	run_if(RUN_BASE_TESTS, "Base tests", &cm_helpers_tests);
-	run_if(RUN_CM_OPERATIONS_TESTS, "cm operations", &cm_operations_tests);
+    run_if(RUN_BASE_TESTS, "Base tests", &cm_helpers_tests);
+    run_if(RUN_CM_OPERATIONS_TESTS, "cm operations", &cm_operations_tests);
 
 }

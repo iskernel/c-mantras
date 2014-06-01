@@ -10,7 +10,9 @@
 
 void cm_helpers_tests()
 {
-	run_if(RUN_CM_TEXT_TESTS, "Base/Helpers/cm_text", &cm_text_tests_run);
-	run_if(RUN_CM_NUMERIC_TESTS, "Base/Helpers/cm_numeric", &cm_numeric_tests_run);
-	run_if(RUN_CM_GENERIC_TESTS, "Base/Helpers/cm generic", &cm_generic_run_tests);
+    run_if(RUN_CM_TEXT_TESTS, "Base/Helpers/cm_text", &cm_text_tests_run);
+    run_if(RUN_CM_NUMERIC_TESTS, "Base/Helpers/cm_numeric",
+           &cm_numeric_tests_run);
+    run_if(RUN_CM_GENERIC_TESTS, "Base/Helpers/cm generic",
+           &cm_generic_run_tests);
 }

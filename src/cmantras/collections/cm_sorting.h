@@ -8,6 +8,7 @@
  * 	http://www.geeksforgeeks.org/iterative-quick-sort/
  */
 
-void cm_sort_array_quicksort (void** array, cm_size array_size, cm_cmp_size (*compare)(const void*, const void*));
+void cm_sort_array_quicksort(void** array, cm_size array_size,
+                             cm_cmp_size (*compare)(const void*, const void*));
 
 #endif

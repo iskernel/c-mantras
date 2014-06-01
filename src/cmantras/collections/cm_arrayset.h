@@ -8,16 +8,16 @@
 
 struct cm_arrayset
 {
-	/*The allocated size for the Object array elements*/
-	cm_size capacity;
-	/*How many elements are actually in the array*/
-	cm_size size;
-	/*The vector containing the objects*/
-	void** content;
-	/*The size of an element*/
-	size_t element_size;
-	/*Compare function*/
-	cm_cmp_size (*compare)(const void*, const void*);
+    /*The allocated size for the Object array elements*/
+    cm_size capacity;
+    /*How many elements are actually in the array*/
+    cm_size size;
+    /*The vector containing the objects*/
+    void** content;
+    /*The size of an element*/
+    size_t element_size;
+    /*Compare function*/
+    cm_cmp_size (*compare)(const void*, const void*);
 };
 
 /*
@@ -29,7 +29,8 @@ struct cm_arrayset
  *  A pointer to the initialized set OR
  *  NULL if there is not enough memory
  */
-struct cm_arrayset* cm_arrayset_create(cm_size capacity, cm_cmp_size (*compare)(const void*, const void*));
+struct cm_arrayset* cm_arrayset_create(
+        cm_size capacity, cm_cmp_size (*compare)(const void*, const void*));
 /*
  * Description:
  *  Resizes an ArraySet data structure
@@ -112,7 +113,8 @@ struct cm_arrayset* cm_arrayset_copy(const struct cm_arrayset* set);
  *  True - if both sets have the same objects
  *  False - if there are differences between the sets
  */
-bool cm_arrayset_equals(const struct cm_arrayset* set1, const struct cm_arrayset* set2);
+bool cm_arrayset_equals(const struct cm_arrayset* set1,
+                        const struct cm_arrayset* set2);
 /*
  * Description:
  *  Check is a a set is a subset of another set
@@ -123,7 +125,8 @@ bool cm_arrayset_equals(const struct cm_arrayset* set1, const struct cm_arrayset
  *  True - if @smallset is a subset of @largeset
  *  False - otherwise
  */
-bool cm_arrayset_is_subset(const struct cm_arrayset* set, const struct cm_arrayset* subset);
+bool cm_arrayset_is_subset(const struct cm_arrayset* set,
+                           const struct cm_arrayset* subset);
 /*
  * Description:
  *  Creates a new ArraySet containing the result of the reunion
@@ -134,7 +137,8 @@ bool cm_arrayset_is_subset(const struct cm_arrayset* set, const struct cm_arrays
  *  A pointer to the ArraySet containing the result of the reunion OR
  *  NULL if there is no memory available to allocate for the new set
  */
-struct cm_arrayset* cm_arrayset_reunion(const struct cm_arrayset* set1, const struct cm_arrayset* set2);
+struct cm_arrayset* cm_arrayset_reunion(const struct cm_arrayset* set1,
+                                        const struct cm_arrayset* set2);
 /*
  * Description:
  *  Creates a new ArraySet containing the result of the intersection
@@ -145,7 +149,8 @@ struct cm_arrayset* cm_arrayset_reunion(const struct cm_arrayset* set1, const st
  *  A pointer to the ArraySet containing the result of the intersection OR
  *  NULL if there is no memory available to allocate for the new set
  */
-struct cm_arrayset* cm_arrayset_intersection(const struct cm_arrayset* set1, const struct cm_arrayset* set2);
+struct cm_arrayset* cm_arrayset_intersection(const struct cm_arrayset* set1,
+                                             const struct cm_arrayset* set2);
 /*
  * Description:
  *  Creates a new ArraySet containing the result of the difference
@@ -159,6 +164,8 @@ struct cm_arrayset* cm_arrayset_intersection(const struct cm_arrayset* set1, con
  *  (the difference between set1 and set2) OR
  *  NULL if there is no memory available to allocate for the new set
  */
-struct cm_arrayset* cm_arrayset_difference(const struct cm_arrayset* main_set, const struct cm_arrayset* secondary_set);
+struct cm_arrayset* cm_arrayset_difference(
+        const struct cm_arrayset* main_set,
+        const struct cm_arrayset* secondary_set);
 
 #endif /* CM_ARRAYSET_H_ */

@@ -8,51 +8,51 @@
 
 struct cm_rgb_f_color
 {
-	double R;
-	double G;
-	double B;
+    double R;
+    double G;
+    double B;
 };
 
 struct cm_rgb_i_color
 {
-	uint8_t R;
-	uint8_t G;
-	uint8_t B;
+    uint8_t R;
+    uint8_t G;
+    uint8_t B;
 };
 
 struct cm_hsi_color
 {
-	double H;
-	double S;
-	double I;
+    double H;
+    double S;
+    double I;
 };
 
 struct cm_hsl_color
 {
-	double H;
-	double S;
-	double L;
+    double H;
+    double S;
+    double L;
 };
 
 struct cm_hsv_color
 {
-	double H;
-	double S;
-	double V;
+    double H;
+    double S;
+    double V;
 };
 
 struct cm_yiq_color
 {
-	double Y;
-	double I;
-	double Q;
+    double Y;
+    double I;
+    double Q;
 };
 
 struct cm_yuv_color
 {
-	double Y;
-	double U;
-	double V;
+    double Y;
+    double U;
+    double V;
 };
 
 /*
@@ -336,6 +336,5 @@ struct cm_yuv_color* cm_yuv_create(double y, double u, double v);
  * correct. Otherwise returns NULL.
  */
 struct cm_yuv_color* cm_yuv_from_rgb_f(double r, double g, double f);
-
 
 #endif /* COLORSPACES_H_ */
