@@ -1,8 +1,13 @@
+#include <math.h>
 #include <stdbool.h>
 
 #include "cmantras/base/helpers/cm_numeric.h"
 #include "cmantras/base/cm_error_log.h"
 #include "cm_colorspace.h"
+
+#ifndef PI
+#define PI (3.141592653589793)
+#endif
 
 /*The lower limit for R, G, B (real version), S, I*/
 #define PER_LOWER_LIMIT (0.0f)
@@ -264,30 +269,41 @@ struct cm_yuv_color* cm_yuv_create(double y, double u, double v)
 struct cm_rgb_f_color* cm_rgb_f_from_hsi(double h, double s, double i)
 {
     struct cm_rgb_f_color* color = NULL;
+    double h_mod = (h * PI) / 180.0;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
     if (cm_hsi_is_valid(h, s, i) == true)
     {
         color = cm_rgb_f_create(0.0f, 0.0f, 0.0f);
-        if (h >= 0.0f && h <= (HUE_UPPER_LIMIT / 3.0f))
+        if( h_mod  <  (2.0 * PI / 3.0) )
         {
-            color->B = (1.0f / 3.0f) * (1.0f - s);
-            color->R = (1.0f / 3.0f) * ((s * cos(h)) / cos(60.0f - h));
-            color->G = 1.0f - (color->B + color->R);
+            x = i * (1.0 - s);
+            y = i * ( 1.0 + (s * cos(h_mod)) / (cos( (PI / 3.0) - h_mod)) );
+            z = (3.0 * i) - (x + y);
+            color->R = y;
+            color->G = z;
+            color->B = x;
         }
-        else if (h > (HUE_UPPER_LIMIT / 3.0f)
-                && h <= (2.0f * HUE_UPPER_LIMIT / 3.0f))
+        else if( (h_mod >= (2.0 * PI / 3.0 ) && (h_mod < (4 * PI / 3.0 )) ) )
         {
-            h -= (HUE_UPPER_LIMIT / 3.0f);
-            color->R = (1.0f / 3.0f) * (1.0f - s);
-            color->G = (1.0f / 3.0f) * ((s * cos(h)) / cos(60.0f - h));
-            color->B = 1.0f - (color->G + color->R);
-
+            h_mod -= (2.0 * PI / 3.0 );
+            x = i * (1.0 - s);
+            y = i * ( 1.0 + (s * cos(h_mod)) / (cos( (PI / 3.0) - h_mod)) );
+            z = (3.0 * i) - (x + y);
+            color->R = x;
+            color->G = y;
+            color->B = z;
         }
-        else /* h>240 h<360 */
+        else
         {
-            h -= (2.0f * HUE_UPPER_LIMIT / 3.0f);
-            color->G = (1.0f / 3.0f) * (1.0f - s);
-            color->B = (1.0f / 3.0f) * ((s * cos(h)) / cos(60.0f - h));
-            color->R = 1.0f - (color->G + color->B);
+            h_mod -= (4.0 * PI / 3.0 );
+            x = i * (1.0 - s);
+            y = i * ( 1.0 + (s * cos(h_mod)) / (cos( (PI / 3.0) - h_mod)) );
+            z = (3.0 * i) - (x + y);
+            color->R = z;
+            color->G = x;
+            color->B = y;
         }
     }
     else
@@ -426,13 +442,13 @@ struct cm_rgb_f_color* cm_rgb_f_from_yuv(double y, double u, double v)
 struct cm_hsi_color* cm_hsi_from_rgb_f(double r, double g, double b)
 {
     struct cm_hsi_color* color = NULL;
-    double m = double_get_min(r, g, b);
-    double M = double_get_max(r, g, b);
+    double m = double_get_min(3, r, g, b);
+    double M = double_get_max(3, r, g, b);
     double c = M - m;
     if (cm_rgb_f_is_valid(r, g, b) == true)
     {
         color = malloc(sizeof(struct cm_hsi_color));
-        color->I = (1.0f / 3.0f) * (r + g + b);
+        color->I = (r + g + b) / 3.0;
         if (c == 0)
         {
             color->H = 0.0f;
@@ -446,13 +462,13 @@ struct cm_hsi_color* cm_hsi_from_rgb_f(double r, double g, double b)
             }
             else if (M == g)
             {
-                color->H = (b - r) / c + 2.0f;
+                color->H = (b - r) / c + 2.0;
             }
             else if (M == b)
             {
-                color->H = (r - g) / c + 4.0f;
+                color->H = (r - g) / c + 4.0;
             }
-            color->H *= 60.0f;
+            color->H *= 60.0;
             color->S = 1.0f - (m / color->I);
         }
     }
@@ -469,8 +485,8 @@ struct cm_hsl_color* cm_hsl_from_rgb_f(double r, double g, double b)
     struct cm_hsl_color* color = NULL;
     if (cm_rgb_f_is_valid(r, g, b) == true)
     {
-        M = double_get_max(r, g, b);
-        m = double_get_min(r, g, b);
+        M = double_get_max(3, r, g, b);
+        m = double_get_min(3, r, g, b);
         c = M - m;
         color = cm_hsl_create(0.0f, 0.0f, 0.0f);
         color->L = 0.5f * (M + m);
@@ -540,10 +556,10 @@ struct cm_yiq_color* cm_yiq_from_rgb_f(double r, double g, double b)
     struct cm_yiq_color* color = NULL;
     if (cm_rgb_f_is_valid(r, g, b) == true)
     {
-        color = cm_yiq_create(0.0f, 0.0f, 0.0f);
-        color->Y = 0.299900f * r + 0.58700f * b + 0.11400f * b;
-        color->I = 0.595716f * r - 0.274453 * b - 0.321264 * b;
-        color->Q = 0.211456f * r - 0.522591 * b + 0.31135f * b;
+        color = cm_yiq_create(0.0, 0.0, 0.0);
+        color->Y = 0.299 * r + 0.587 * g + 0.114 * b;
+        color->I = 0.596 * r - 0.275 * g - 0.321 * b;
+        color->Q = 0.212 * r - 0.523 * g + 0.311 * b;
     }
     else
     {
@@ -558,9 +574,9 @@ struct cm_yuv_color* cm_yuv_from_rgb_f(double r, double g, double b)
     if (cm_rgb_f_is_valid(r, g, b) == true)
     {
         color = cm_yuv_create(0.0f, 0.0f, 0.0f);
-        color->Y = 0.299f * r + 0.587f * b + 0.114f * b;
-        color->U = 0.492f * (b - color->Y);
-        color->V = 0.877f * (r - color->Y);
+        color->Y = 0.299 * r + 0.587 * g + 0.114 * b;
+        color->U = -0.14713 * r - 0.28886 * g + 0.436 * b;
+        color->V = 0.615 * r + -0.51499 * g - 0.10001 * b;
     }
     else
     {
@@ -577,9 +593,9 @@ struct cm_rgb_i_color* cm_rgb_i_from_rgb_f(double r, double g, double b)
         color = malloc(sizeof(struct cm_rgb_i_color));
         if (color != NULL)
         {
-            color->R = (uint8_t) (r * (double) RGBI_UPPER_LIMIT + 0.5f);
-            color->G = (uint8_t) (g * (double) RGBI_UPPER_LIMIT + 0.5f);
-            color->B = (uint8_t) (b * (double) RGBI_UPPER_LIMIT + 0.5f);
+            color->R = (uint8_t) (r * (double) RGBI_UPPER_LIMIT + 0.5);
+            color->G = (uint8_t) (g * (double) RGBI_UPPER_LIMIT + 0.5);
+            color->B = (uint8_t) (b * (double) RGBI_UPPER_LIMIT + 0.5);
         }
     }
     else

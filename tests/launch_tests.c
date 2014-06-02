@@ -7,6 +7,7 @@ int main(void)
     base_run_tests();
     collections_run_tests();
     cryptography_run_tests();
+    media_run_tests();
     return 0;
 }
 
