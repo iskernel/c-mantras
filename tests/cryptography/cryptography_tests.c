@@ -1,4 +1,4 @@
-#include "cm_cryptography_tests.h"
+#include "cryptography_tests.h"
 #include "cm_classical_ciphers_tests.h"
 
 #include "../cm_test_base.h"

@@ -22,5 +22,8 @@
 /* Media */
 #define RUN_CM_COLORSPACE 1
 #define RUN_CM_G711 1
+/* Memory */
+#define RUN_CM_MEMORY 1
+#define RUN_CM_NALLOC 1
 
 #endif /* CM_TESTS_CONFIGURATION_H_ */

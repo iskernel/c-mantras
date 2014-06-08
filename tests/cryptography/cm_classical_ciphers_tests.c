@@ -49,7 +49,7 @@ static void cm_classical_ciphers_disk_apply__encode_decode__is_successful(void)
     cm_string_destroy(decoded);
 }
 
-static void cm_lcassical_ciphers_substitution_apply__encode_decode__is_successful(
+static void cm_classical_ciphers_substitution_apply__encode_decode__is_successful(
         void)
 {
     struct cm_string* original_alphabet = cm_string_create_from_char_array(
@@ -77,5 +77,5 @@ void cm_classical_ciphers_tests_run(void)
 {
     cm_classical_ciphers_caesar_apply__encode_decode__is_successful();
     cm_classical_ciphers_disk_apply__encode_decode__is_successful();
-    cm_lcassical_ciphers_substitution_apply__encode_decode__is_successful();
+    cm_classical_ciphers_substitution_apply__encode_decode__is_successful();
 }

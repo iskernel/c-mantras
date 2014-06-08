@@ -2,7 +2,7 @@
 
 #include "cmantras/base/cm_error_log.h"
 
-#include "cm_alloc.h"
+#include "cm_nalloc.h"
 
 void* cm_nalloc_1d(void* vector, size_t x_size, size_t element_size)
 {

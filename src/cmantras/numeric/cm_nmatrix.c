@@ -12,7 +12,6 @@ struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows,
         matrix->data->rows = rows;
         matrix->data->columns = columns;
         matrix->data->content = malloc(rows * sizeof(real*));
-        matrix->methods = &CM_NARRAY_INTERFACE;
         for (i = 0; i < rows; i++)
         {
             matrix->data->content[i] = malloc(columns * sizeof(real));
