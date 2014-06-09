@@ -25,5 +25,11 @@
 /* Memory */
 #define RUN_CM_MEMORY 1
 #define RUN_CM_NALLOC 1
+/* Numeric */
+#define RUN_CM_NUMERIC 1
+#define RUN_CM_NARRAY 1
+#define RUN_CM_NMATRIX 1
+/* Text */
+#define RUN_CM_STRING 1
 
 #endif /* CM_TESTS_CONFIGURATION_H_ */

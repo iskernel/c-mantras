@@ -50,7 +50,7 @@ static void cm_string_create_from_char__a_char__isCreated()
 
     string = cm_string_create_from_char(char1);
     condition = (string->length == 1)
-            && (strcmp(string->content, "r") == 0);
+                 && (strcmp(string->content, "r") == 0);
     assert_is_true(condition, __func__);
 }
 

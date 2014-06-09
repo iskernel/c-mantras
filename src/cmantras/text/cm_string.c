@@ -48,9 +48,11 @@ struct cm_string* cm_string_create_from_char(char character)
     struct cm_string* string = NULL;
 
     string = malloc(sizeof(struct cm_string));
+
     string->content = malloc(2 * sizeof(char));
     string->content[0] = character;
     string->length = 1;
+    string->content[1] = '\0';
 
     return string;
 }
@@ -176,7 +178,8 @@ struct cm_string* cm_string_concat(struct cm_string* string, ...)
     }
     va_end(args);
 
-    content = malloc(sizeof(char) * size);
+    content = malloc(sizeof(char) * (size + 1));
+    strcpy(content, "");
 
     va_start(args, string);
     for (iterator = string; iterator != NULL;

@@ -6,40 +6,11 @@
 
 #include "cm_common.h"
 
-struct cm_narray_data
+struct cm_narray
 {
     real* content;
     integer size;
 };
-
-struct cm_narray;
-
-struct cm_interface_narray
-{
-    real (*min)(const struct cm_narray*);
-    real (*max)(const struct cm_narray*);
-    real (*sum)(const struct cm_narray*);
-    real (*product)(const struct cm_narray*);
-    real (*arithmetic_mean)(const struct cm_narray*);
-    real (*geometric_mean)(const struct cm_narray*);
-    real (*harmonic_mean)(const struct cm_narray*);
-};
-
-struct cm_narray
-{
-    struct cm_narray_data* data;
-    struct cm_interface_narray* methods;
-};
-
-/**
- * Description:
- * 	Initializes the cm_narray module
- * Parameters:
- *  None
- * Returns:
- *  None
- */
-void module_cm_narray_initialize();
 
 /*
  * Description:

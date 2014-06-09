@@ -7,50 +7,13 @@
 #include "cmantras/base/helpers/cm_numeric.h"
 #include "cm_narray.h"
 
-struct cm_nmatrix_data
+struct cm_nmatrix
 {
     real** content;
     integer rows;
     integer columns;
 };
 
-struct cm_nmatrix;
-
-struct cm_interface_nmatrix
-{
-    struct cm_nmatrix* (*destroy)(struct cm_nmatrix*);
-    struct cm_nmatrix* (*copy)(const struct cm_nmatrix*);
-    struct cm_nmatrix* (*add)(const struct cm_nmatrix*,
-                              const struct cm_nmatrix*);
-    struct cm_nmatrix* (*multiply_with_scalar)(const struct cm_nmatrix*, real);
-    struct cm_nmatrix* (*muliply)(const struct cm_nmatrix*,
-                                  const struct cm_nmatrix*);
-    struct cm_narray* (*get_secondary_diagonal_as_array)(struct cm_nmatrix*);
-    struct cm_narray* (*get_primary_diagonal_as_array)(struct cm_nmatrix*);
-    struct cm_nmatrix* (*get_minor)(const struct cm_nmatrix, integer, integer,
-                                    integer);
-    real (*get_determinant)(const struct cm_nmatrix*, integer);
-    struct cm_nmatrix* (*get_transpose)(const struct cm_nmatrix*);
-    struct cm_nmatrix* (*get_adjugate)(const struct cm_nmatrix*);
-    struct cm_nmatrix* (*get_inverse)(struct cm_nmatrix*);
-};
-
-struct cm_nmatrix
-{
-    struct cm_nmatrix_data* data;
-    struct cm_interface_matrix* methods;
-};
-
-/**
- * Description:
- * 	Initializes the cm_nmatrix module. Needs to be called before
- * 	using cm_nmatrix as an object.
- * Parameters:
- *  None
- * Returns:
- *  None
- */
-void module_cm_nmatrix_initialize(void);
 /*
  * Description:
  * 	Alocates spaces for a cm_nmatrix structure according to the parameters
@@ -62,8 +25,7 @@ void module_cm_nmatrix_initialize(void);
  * Returns:
  *  A pointer to the allocated matrix structure.
  */
-struct cm_nmatrix* cm_nmatrix_create(struct cm_nmatrix *matrix, integer rows,
-                                     integer columns);
+struct cm_nmatrix* cm_nmatrix_create(integer rows, integer columns);
 /*
  * Description:
  * 	Free the space hold by a cm_nmatrix structure
@@ -93,7 +55,7 @@ struct cm_nmatrix* cm_nmatrix_copy(const struct cm_nmatrix *source);
  *  If the rows/columns of mat1 and mat2 are not
  * equal, the result will be NULL
  */
-struct cm_nmatrix* cm_nmatrix_add(const struct cm_nmatrix* matrix1,
+struct cm_nmatrix* cm_nmatrix_sum(const struct cm_nmatrix* matrix1,
                                   const struct cm_nmatrix* matrix2);
 /*
  * Description:
@@ -114,7 +76,7 @@ struct cm_nmatrix* cm_nmatrix_multiply_with_scalar(
  * Returns:
  *  A pointer to the result matrix.
  */
-struct cm_nmatrix* cm_nmatrix_muliply(const struct cm_nmatrix* matrix1,
+struct cm_nmatrix* cm_nmatrix_product(const struct cm_nmatrix* matrix1,
                                       const struct cm_nmatrix* matrix2);
 /*
  * Description:
