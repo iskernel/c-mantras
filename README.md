@@ -29,7 +29,7 @@ Modules
   - *cm_nalloc* - generic memory allocation for 1D, 2D, 3D and 4D arrays.
  - **numeric** 
   - *cm_narray* - numeric array data structure and algorithms
-  - *cm_narray* - numeric matrix data structure and  algorithms
+  - *cm_nmatrix* - numeric matrix data structure and  algorithms
  - **text** 
   - *cm_string* - string data structure and algorithms
 
